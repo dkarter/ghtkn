@@ -28,13 +28,22 @@ jobs:
         with:
           client-id: ${{ vars.RELEASE_CLIENT_ID }}
           private-key: ${{ secrets.RELEASE_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ github.event.repository.name }}
           permission-contents: write
           permission-pull-requests: write
+
+      - name: Verify GitHub App pull request access
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: gh api "repos/${GITHUB_REPOSITORY}/pulls?per_page=1" --silent
 
       - name: Create or update release pull request
         id: release
         uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
         with:
+          repo-url: ${{ github.repository }}
+          target-branch: main
           token: ${{ steps.app-token.outputs.token }}
 
   build-release:
