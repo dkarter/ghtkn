@@ -1,20 +1,45 @@
 ---
-name: Release
+name: Release Please
 
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - main
 
-permissions: {}
+permissions:
+  contents: read
 
 concurrency:
-  group: release-${{ github.ref }}
+  group: release-please
   cancel-in-progress: false
 
 jobs:
-  release:
+  release-please:
     if: github.repository == 'dkarter/ghtkn'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+    steps:
+      - name: Create GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.RELEASE_CLIENT_ID }}
+          private-key: ${{ secrets.RELEASE_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Create or update release pull request
+        id: release
+        uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+
+  build-release:
+    if: needs.release-please.outputs.release_created == 'true'
+    needs: release-please
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     permissions:
@@ -25,12 +50,14 @@ jobs:
     env:
       GORELEASER_VERSION: v2.17.1
       SYFT_VERSION: v1.51.0
+      TAG_NAME: ${{ needs.release-please.outputs.tag_name }}
     steps:
       - name: Check out the release tag
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
+          ref: ${{ env.TAG_NAME }}
 
       - name: Set up Go
         uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
@@ -90,20 +117,16 @@ jobs:
         with:
           subject-checksums: dist/ghtkn_checksums.txt
 
-      - name: Publish GitHub Release
+      - name: Upload assets to draft release
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
           mapfile -d '' -t release_assets < "${RUNNER_TEMP}/release-assets"
-          release_args=(
-            --repo dkarter/ghtkn
-            --verify-tag
-            --generate-notes
-            --title "$GITHUB_REF_NAME"
-          )
-          if [[ "$GITHUB_REF_NAME" == *-* ]]; then
-            release_args+=(--prerelease)
-          fi
-          gh release create "$GITHUB_REF_NAME" "${release_assets[@]}" "${release_args[@]}"
+          gh release upload "$TAG_NAME" "${release_assets[@]}" --clobber --repo dkarter/ghtkn
+
+      - name: Publish immutable release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release edit "$TAG_NAME" --repo dkarter/ghtkn --draft=false
