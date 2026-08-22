@@ -33,6 +33,11 @@ jobs:
           permission-contents: write
           permission-pull-requests: write
 
+      - name: Verify GitHub App repository access
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: gh api "repos/${GITHUB_REPOSITORY}" --silent
+
       - name: Verify GitHub App pull request access
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
