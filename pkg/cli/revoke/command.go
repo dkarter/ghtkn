@@ -3,13 +3,12 @@
 // and removes the revoked tokens from the backend. This is useful when a token has
 // been leaked and must be revoked quickly.
 //
-// Each positional argument is classified by its prefix: arguments that start with a
-// GitHub token prefix (ghp_, github_pat_, gho_, ghu_, ghr_) are treated as raw
-// access tokens and revoked directly; all other arguments are treated as app names,
-// whose stored tokens are revoked and removed from the backend. When no argument is
-// given, the token stored for GHTKN_APP (or the default app) is revoked. When only
-// raw tokens are given, GHTKN_APP and the default app are NOT used, so revoking a
-// raw token never revokes an unrelated app's stored token.
+// Raw tokens should be supplied through standard input with --token-stdin so they do
+// not appear in process arguments or shell history. Positional raw tokens remain
+// supported for compatibility. Other positional arguments are treated as app names,
+// whose stored tokens are revoked and removed from the backend. When no argument or
+// stdin token is given, the token stored for GHTKN_APP (or the default app) is
+// revoked.
 //
 // The --all flag revokes the stored tokens of every app in the config at once,
 // for incident response when the environment running ghtkn is compromised. With
@@ -18,8 +17,11 @@ package revoke
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"io"
 	"strings"
+	"unicode"
 
 	"github.com/spf13/cobra"
 	"github.com/suzuki-shunsuke/ghtkn/pkg/cli/completion"
@@ -33,9 +35,13 @@ import (
 type Args struct {
 	*flag.GlobalFlags
 
-	Args []string // positional arguments (raw tokens and/or app names)
-	All  bool     // --all: revoke the stored tokens of every app in the config
+	Args        []string  // positional arguments (legacy raw tokens and/or app names)
+	TokenReader io.Reader // standard input when --token-stdin is set
+	All         bool      // --all: revoke the stored tokens of every app in the config
+	TokenStdin  bool      // --token-stdin: read one raw token from standard input
 }
+
+const maxTokenStdinBytes = 4096
 
 // New creates a new revoke command instance with the provided logger.
 // It returns a CLI command that can be registered with the main CLI application.
@@ -48,7 +54,9 @@ func New(logger *slogutil.Logger, gFlags *flag.GlobalFlags) *cobra.Command {
 		Short: "Revoke GitHub App User Access Tokens",
 		Long: `Revoke GitHub App User Access Tokens via GitHub's credential revocation API and remove them from the backend.
 
-Each argument is classified by its prefix: arguments starting with a GitHub token prefix (ghp_, github_pat_, gho_, ghu_, ghr_) are revoked directly as raw access tokens, and all other arguments are treated as app names whose stored tokens are revoked and removed from the backend.
+Pass a raw token with --token-stdin so it does not appear in process arguments or shell history. Exactly one token is read from standard input. Positional raw tokens remain supported for compatibility but are unsafe because other processes and shell history may expose them.
+
+Positional arguments that are not raw tokens are treated as app names whose stored tokens are revoked and removed from the backend.
 When no argument is given, the token stored for GHTKN_APP (or the default app) is revoked.
 
 With --all, the stored tokens of every app in the config are revoked. This is meant for incident response: when the environment running ghtkn is compromised, all stored tokens can be revoked at once. App name arguments are ignored when --all is set, but raw access tokens are still revoked as usual.`,
@@ -57,10 +65,12 @@ With --all, the stored tokens of every app in the config are revoked. This is me
 		ValidArgsFunction: completion.AppNames(&args.Config, ignoresAppNames),
 		RunE: func(cmd *cobra.Command, positional []string) error {
 			args.Args = positional
+			args.TokenReader = cmd.InOrStdin()
 			return action(cmd.Context(), logger, args)
 		},
 	}
 	cmd.Flags().BoolVar(&args.All, "all", false, "Revoke the stored tokens of every app in the config")
+	cmd.Flags().BoolVar(&args.TokenStdin, "token-stdin", false, "Read one raw access token from standard input (recommended for raw tokens)")
 	return cmd
 }
 
@@ -107,6 +117,34 @@ func isToken(s string) bool {
 	return false
 }
 
+// readToken reads exactly one newline-terminated or EOF-terminated raw token. The
+// input is deliberately bounded and validated as a token so an app name cannot be
+// accidentally redirected into the credential revocation API.
+func readToken(r io.Reader) (string, error) {
+	if r == nil {
+		return "", errors.New("read token from standard input: input is unavailable")
+	}
+	b, err := io.ReadAll(io.LimitReader(r, maxTokenStdinBytes+1))
+	if err != nil {
+		return "", fmt.Errorf("read token from standard input: %w", err)
+	}
+	if len(b) > maxTokenStdinBytes {
+		return "", fmt.Errorf("read token from standard input: token exceeds %d bytes", maxTokenStdinBytes)
+	}
+	token := strings.TrimSuffix(string(b), "\n")
+	token = strings.TrimSuffix(token, "\r")
+	if token == "" {
+		return "", errors.New("read token from standard input: token is empty")
+	}
+	if strings.IndexFunc(token, unicode.IsSpace) >= 0 {
+		return "", errors.New("read token from standard input: expected exactly one token")
+	}
+	if !isToken(token) {
+		return "", errors.New("read token from standard input: value does not have a recognized GitHub token prefix")
+	}
+	return token, nil
+}
+
 // action revokes the requested tokens.
 // Positional arguments are classified into raw tokens (revoked directly) and app
 // names (whose stored tokens are revoked via the SDK). When no argument is given,
@@ -119,6 +157,13 @@ func action(ctx context.Context, logger *slogutil.Logger, args *Args) error {
 	}
 
 	tokens, appNames := classify(args.Args)
+	if args.TokenStdin {
+		token, err := readToken(args.TokenReader)
+		if err != nil {
+			return err
+		}
+		tokens = append(tokens, token)
+	}
 	if args.All {
 		// --all revokes every app's stored token, so explicit app names are ignored.
 		// Raw tokens are still revoked.
