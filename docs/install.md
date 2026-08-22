@@ -1,5 +1,5 @@
 ---
-description: Install the ghtkn CLI and verify downloaded release assets. Use when installing ghtkn via Homebrew, Scoop, aqua, go install, or GitHub Releases, or verifying assets with gh / slsa-verifier / Cosign.
+description: Install the ghtkn CLI and verify downloaded release assets. Use when installing the maintained dkarter fork through mise or GitHub Releases, using upstream package managers, or verifying checksums and GitHub attestations.
 ---
 
 # Install
@@ -8,11 +8,22 @@ ghtkn is written in Go. So you only have to install a binary in your `PATH`.
 
 There are some ways to install ghtkn.
 
+1. [mise](#mise)
 1. [Homebrew](#homebrew)
 1. [Scoop](#scoop)
 1. [aqua](#aqua)
 1. [GitHub Releases](#github-releases)
 1. [Build an executable binary from source code yourself using Go](#build-an-executable-binary-from-source-code-yourself-using-go)
+
+## mise
+
+Install this maintained fork directly from its GitHub Releases:
+
+```sh
+mise use -g github:dkarter/ghtkn
+```
+
+The release archives use mise's expected names, such as `ghtkn_darwin_arm64.tar.gz` and `ghtkn_linux_amd64.tar.gz`.
 
 ## Homebrew
 
@@ -49,18 +60,12 @@ go install github.com/suzuki-shunsuke/ghtkn/cmd/ghtkn@latest
 
 ## GitHub Releases
 
-You can download an asset from [GitHub Releases](https://github.com/suzuki-shunsuke/ghtkn/releases).
+You can download an asset from [the dkarter fork's GitHub Releases](https://github.com/dkarter/ghtkn/releases).
 Please unarchive it and install a pre built binary into `$PATH`. 
 
 ### Verify downloaded assets from GitHub Releases
 
-You can verify downloaded assets using some tools.
-
-1. [GitHub CLI](https://cli.github.com/)
-1. [slsa-verifier](https://github.com/slsa-framework/slsa-verifier)
-1. [Cosign](https://github.com/sigstore/cosign)
-
-### 1. GitHub CLI
+Each fork release includes SHA-256 checksums, per-archive SPDX JSON SBOMs, and GitHub artifact attestations with build provenance. Verify an archive with the [GitHub CLI](https://cli.github.com/):
 
 You can install GitHub CLI by aqua.
 
@@ -71,53 +76,10 @@ aqua g -i cli/cli
 ```sh
 version=v0.1.0
 asset=ghtkn_darwin_arm64.tar.gz
-gh release download -R suzuki-shunsuke/ghtkn "$version" -p "$asset"
+gh release download -R dkarter/ghtkn "$version" -p "$asset"
 gh attestation verify "$asset" \
-  -R suzuki-shunsuke/ghtkn \
-  --signer-workflow suzuki-shunsuke/go-release-workflow/.github/workflows/release.yaml
-```
-
-### 2. slsa-verifier
-
-You can install slsa-verifier by aqua.
-
-```sh
-aqua g -i slsa-framework/slsa-verifier
-```
-
-```sh
-version=v0.1.0
-asset=ghtkn_darwin_arm64.tar.gz
-gh release download -R suzuki-shunsuke/ghtkn "$version" -p "$asset" -p multiple.intoto.jsonl
-slsa-verifier verify-artifact "$asset" \
-  --provenance-path multiple.intoto.jsonl \
-  --source-uri github.com/suzuki-shunsuke/ghtkn \
-  --source-tag "$version"
-```
-
-### 3. Cosign
-
-You can install Cosign by aqua.
-
-```sh
-aqua g -i sigstore/cosign
-```
-
-```sh
-version=v0.1.0
-checksum_file="ghtkn_checksums.txt"
-asset=ghtkn_darwin_arm64.tar.gz
-gh release download "$version" \
-  -R suzuki-shunsuke/ghtkn \
-  -p "$asset" \
-  -p "$checksum_file" \
-  -p "${checksum_file}.pem" \
-  -p "${checksum_file}.sig"
-cosign verify-blob \
-  --signature "${checksum_file}.sig" \
-  --certificate "${checksum_file}.pem" \
-  --certificate-identity-regexp 'https://github\.com/suzuki-shunsuke/go-release-workflow/\.github/workflows/release\.yaml@.*' \
-  --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
-  "$checksum_file"
-cat "$checksum_file" | sha256sum -c --ignore-missing -
+  -R dkarter/ghtkn \
+  --signer-workflow dkarter/ghtkn/.github/workflows/release.yaml
+gh release download -R dkarter/ghtkn "$version" -p ghtkn_checksums.txt
+sha256sum --check --ignore-missing ghtkn_checksums.txt
 ```
