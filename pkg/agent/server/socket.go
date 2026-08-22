@@ -64,6 +64,19 @@ func cleanupStaleSocket(ctx context.Context, path string) error {
 		conn.Close()
 		return errAgentRunning
 	}
+	return removeStaleSocketIfUnchanged(path, info)
+}
+
+// removeStaleSocketIfUnchanged closes the check/use gap around the socket dial by
+// refusing to unlink a path whose type or file identity changed during the dial.
+func removeStaleSocketIfUnchanged(path string, expectedInfo os.FileInfo) error {
+	currentInfo, err := os.Lstat(path)
+	if err != nil {
+		return fmt.Errorf("recheck the stale socket: %w", err)
+	}
+	if currentInfo.Mode()&os.ModeSocket == 0 || !os.SameFile(expectedInfo, currentInfo) {
+		return fmt.Errorf("refuse to remove the socket path because it changed while being checked: %s", path)
+	}
 	if err := os.Remove(path); err != nil {
 		return fmt.Errorf("remove the stale socket: %w", err)
 	}

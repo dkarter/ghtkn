@@ -27,6 +27,23 @@ func shortSocketPath(t *testing.T) string {
 	return path
 }
 
+func createStaleSocket(t *testing.T, path string) os.FileInfo {
+	t.Helper()
+	listener, err := net.ListenUnix("unix", &net.UnixAddr{Name: path, Net: "unix"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	listener.SetUnlinkOnClose(false)
+	if err := listener.Close(); err != nil {
+		t.Fatal(err)
+	}
+	info, err := os.Lstat(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return info
+}
+
 func TestCleanupStaleSocket(t *testing.T) {
 	t.Parallel()
 
@@ -40,13 +57,7 @@ func TestCleanupStaleSocket(t *testing.T) {
 	t.Run("stale socket removed", func(t *testing.T) {
 		t.Parallel()
 		path := shortSocketPath(t)
-		listener, err := net.Listen("unix", path)
-		if err != nil {
-			t.Fatal(err)
-		}
-		if err := listener.Close(); err != nil {
-			t.Fatal(err)
-		}
+		createStaleSocket(t, path)
 		if err := cleanupStaleSocket(t.Context(), path); err != nil {
 			t.Fatal(err)
 		}
@@ -95,4 +106,27 @@ func TestCleanupStaleSocket(t *testing.T) {
 			t.Fatalf("socket path is no longer a symlink: mode=%v", info.Mode())
 		}
 	})
+}
+
+func TestRemoveStaleSocketIfUnchangedPreservesReplacement(t *testing.T) {
+	t.Parallel()
+	path := shortSocketPath(t)
+	info := createStaleSocket(t, path)
+	if err := os.Remove(path); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(path, []byte("keep"), socketFilePerm); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := removeStaleSocketIfUnchanged(path, info); err == nil {
+		t.Fatal("removeStaleSocketIfUnchanged must reject a replacement file")
+	}
+	content, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatalf("replacement file was removed: %v", err)
+	}
+	if string(content) != "keep" {
+		t.Fatalf("replacement file was changed: %q", content)
+	}
 }
