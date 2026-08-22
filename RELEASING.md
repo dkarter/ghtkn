@@ -17,7 +17,7 @@ goreleaser check
 goreleaser release --snapshot --clean --skip=publish
 ```
 
-Confirm `dist/` contains the six mise-compatible archives, `ghtkn_checksums.txt`, and an `.sbom.json` file for every archive. Each archive must contain `LICENSE`; the workflow also publishes it as a checksummed and attested standalone asset. No GitHub Release is created by the snapshot command.
+Confirm `dist/` contains the five mise-compatible archives, `ghtkn_checksums.txt`, and an `.sbom.json` file for every archive. macOS is supported on Apple silicon only; Linux and Windows are built for both amd64 and arm64. Each archive must contain `LICENSE`; the workflow also publishes it as a checksummed and attested standalone asset. No GitHub Release is created by the snapshot command.
 
 ## Repository setup
 

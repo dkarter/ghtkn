@@ -115,7 +115,6 @@ jobs:
         run: |
           set -euo pipefail
           archives=(
-            ghtkn_darwin_amd64.tar.gz
             ghtkn_darwin_arm64.tar.gz
             ghtkn_linux_amd64.tar.gz
             ghtkn_linux_arm64.tar.gz
