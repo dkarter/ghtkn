@@ -16,6 +16,7 @@
 package revoke
 
 import (
+	"bufio"
 	"context"
 	"errors"
 	"fmt"
@@ -50,11 +51,11 @@ func New(logger *slogutil.Logger, gFlags *flag.GlobalFlags) *cobra.Command {
 		GlobalFlags: gFlags,
 	}
 	cmd := &cobra.Command{
-		Use:   "revoke [<access token | app name>...]",
+		Use:   "revoke [<app name>...]",
 		Short: "Revoke GitHub App User Access Tokens",
 		Long: `Revoke GitHub App User Access Tokens via GitHub's credential revocation API and remove them from the backend.
 
-Pass a raw token with --token-stdin so it does not appear in process arguments or shell history. Exactly one token is read from standard input. Positional raw tokens remain supported for compatibility but are unsafe because other processes and shell history may expose them.
+Pass a raw token with --token-stdin so it does not appear in process arguments or shell history. One token is read from the first line of standard input. Positional raw tokens remain supported for compatibility but are unsafe because other processes and shell history may expose them.
 
 Positional arguments that are not raw tokens are treated as app names whose stored tokens are revoked and removed from the backend.
 When no argument is given, the token stored for GHTKN_APP (or the default app) is revoked.
@@ -70,7 +71,7 @@ With --all, the stored tokens of every app in the config are revoked. This is me
 		},
 	}
 	cmd.Flags().BoolVar(&args.All, "all", false, "Revoke the stored tokens of every app in the config")
-	cmd.Flags().BoolVar(&args.TokenStdin, "token-stdin", false, "Read one raw access token from standard input (recommended for raw tokens)")
+	cmd.Flags().BoolVar(&args.TokenStdin, "token-stdin", false, "Read one raw access token from the first line of standard input (recommended for raw tokens)")
 	return cmd
 }
 
@@ -117,22 +118,25 @@ func isToken(s string) bool {
 	return false
 }
 
-// readToken reads exactly one newline-terminated or EOF-terminated raw token. The
-// input is deliberately bounded and validated as a token so an app name cannot be
+// readToken reads one newline-terminated or EOF-terminated raw token. The input is
+// deliberately bounded and validated as a token so an app name cannot be
 // accidentally redirected into the credential revocation API.
 func readToken(r io.Reader) (string, error) {
 	if r == nil {
 		return "", errors.New("read token from standard input: input is unavailable")
 	}
-	b, err := io.ReadAll(io.LimitReader(r, maxTokenStdinBytes+1))
-	if err != nil {
-		return "", fmt.Errorf("read token from standard input: %w", err)
+	scanner := bufio.NewScanner(r)
+	scanner.Buffer(make([]byte, 1024), maxTokenStdinBytes+1)
+	if !scanner.Scan() {
+		if err := scanner.Err(); err != nil {
+			return "", fmt.Errorf("read token from standard input: %w", err)
+		}
+		return "", errors.New("read token from standard input: token is empty")
 	}
-	if len(b) > maxTokenStdinBytes {
+	token := scanner.Text()
+	if len(token) > maxTokenStdinBytes {
 		return "", fmt.Errorf("read token from standard input: token exceeds %d bytes", maxTokenStdinBytes)
 	}
-	token := strings.TrimSuffix(string(b), "\n")
-	token = strings.TrimSuffix(token, "\r")
 	if token == "" {
 		return "", errors.New("read token from standard input: token is empty")
 	}

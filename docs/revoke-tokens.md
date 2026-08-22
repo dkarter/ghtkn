@@ -28,7 +28,7 @@ printf '%s\n' "$token_to_revoke" | ghtkn revoke --token-stdin
 unset token_to_revoke
 ```
 
-`--token-stdin` reads exactly one raw token. It can be combined with app names or `--all` when both the supplied token and stored tokens must be revoked. Positional raw tokens remain supported for compatibility, but they are unsafe and should not be used.
+`--token-stdin` reads one raw token from the first line. It can be combined with app names or `--all` when both the supplied token and stored tokens must be revoked. Positional raw tokens remain supported for compatibility, but they are unsafe and should not be used.
 
 Positional arguments are treated as app names unless they have a recognized GitHub token prefix (`ghp_`, `github_pat_`, `gho_`, `ghu_`, `ghr_`). When no argument or standard-input token is given, the command falls back to `GHTKN_APP` or the default app. When only a raw token is supplied, the fallback is not used, so revoking it never touches an unrelated app's stored token.
 

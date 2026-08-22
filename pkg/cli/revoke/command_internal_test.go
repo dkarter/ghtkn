@@ -90,9 +90,9 @@ func TestReadToken(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name:    "multiple tokens rejected",
-			input:   "ghu_first\nghu_second\n",
-			wantErr: true,
+			name:  "only first line read",
+			input: "ghu_first\nghu_second\n",
+			want:  "ghu_first",
 		},
 		{
 			name:    "oversized input rejected",
