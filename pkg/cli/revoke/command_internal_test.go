@@ -104,19 +104,24 @@ func TestReadToken(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			got, err := readToken(strings.NewReader(tt.input))
-			if tt.wantErr {
-				if err == nil {
-					t.Fatalf("readToken() = %q, want an error", got)
-				}
-				return
-			}
-			if err != nil {
-				t.Fatal(err)
-			}
-			if got != tt.want {
-				t.Errorf("readToken() = %q, want %q", got, tt.want)
-			}
+			assertReadToken(t, tt.input, tt.want, tt.wantErr)
 		})
+	}
+}
+
+func assertReadToken(t *testing.T, input, want string, wantErr bool) {
+	t.Helper()
+	got, err := readToken(strings.NewReader(input))
+	if wantErr {
+		if err == nil {
+			t.Fatalf("readToken() = %q, want an error", got)
+		}
+		return
+	}
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got != want {
+		t.Errorf("readToken() = %q, want %q", got, want)
 	}
 }

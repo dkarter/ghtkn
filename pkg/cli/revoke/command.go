@@ -42,7 +42,10 @@ type Args struct {
 	TokenStdin  bool      // --token-stdin: read one raw token from standard input
 }
 
-const maxTokenStdinBytes = 4096
+const (
+	initialTokenStdinBufferBytes = 1024
+	maxTokenStdinBytes           = 4096
+)
 
 // New creates a new revoke command instance with the provided logger.
 // It returns a CLI command that can be registered with the main CLI application.
@@ -126,7 +129,7 @@ func readToken(r io.Reader) (string, error) {
 		return "", errors.New("read token from standard input: input is unavailable")
 	}
 	scanner := bufio.NewScanner(r)
-	scanner.Buffer(make([]byte, 1024), maxTokenStdinBytes+1)
+	scanner.Buffer(make([]byte, initialTokenStdinBufferBytes), maxTokenStdinBytes+1)
 	if !scanner.Scan() {
 		if err := scanner.Err(); err != nil {
 			return "", fmt.Errorf("read token from standard input: %w", err)
