@@ -72,20 +72,37 @@ jobs:
           ref: ${{ env.TAG_NAME }}
 
       - name: Set up Go
+        id: setup-go
         uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
           go-version-file: go.mod
           cache-dependency-path: go.sum
 
-      - name: Install pinned release tools
+      - name: Configure release tool path
+        id: release-tool-path
         shell: bash
         run: |
           set -euo pipefail
           tool_bin="${RUNNER_TEMP}/ghtkn-release-tools"
           mkdir -p "$tool_bin"
+          echo "RELEASE_TOOL_BIN=$tool_bin" >> "$GITHUB_ENV"
+          echo "path=$tool_bin" >> "$GITHUB_OUTPUT"
           echo "$tool_bin" >> "$GITHUB_PATH"
-          GOBIN="$tool_bin" go install "github.com/goreleaser/goreleaser/v2@${GORELEASER_VERSION}"
-          GOBIN="$tool_bin" go install "github.com/anchore/syft/cmd/syft@${SYFT_VERSION}"
+
+      - name: Cache pinned release tools
+        id: release-tools-cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ steps.release-tool-path.outputs.path }}
+          key: release-tools-${{ runner.os }}-${{ runner.arch }}-go-${{ steps.setup-go.outputs.go-version }}-${{ env.GORELEASER_VERSION }}-${{ env.SYFT_VERSION }}
+
+      - name: Install pinned release tools
+        if: steps.release-tools-cache.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          GOBIN="$RELEASE_TOOL_BIN" go install "github.com/goreleaser/goreleaser/v2@${GORELEASER_VERSION}"
+          GOBIN="$RELEASE_TOOL_BIN" go install "github.com/anchore/syft/cmd/syft@${SYFT_VERSION}"
 
       - name: Test
         run: go test ./...
