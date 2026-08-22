@@ -1,25 +1,12 @@
 # Releasing the dkarter fork
 
-Pushing a `v*` tag starts the fork-owned release workflow. It tests the tagged commit, builds all supported archives, includes and publishes the license, generates SBOMs, verifies checksums and archive contents, records GitHub build-provenance attestations, and then publishes the release to `dkarter/ghtkn`. It uses only the repository `GITHUB_TOKEN`.
+Release Please manages releases from conventional commits merged into `main`. It opens or updates a release pull request containing the next version. Merging that pull request creates a `v*` tag and draft GitHub Release, then the same workflow tests the tagged commit, builds and validates all supported archives, uploads checksums, SBOMs, license material, and provenance, and publishes the completed release.
 
-Normal tags such as `v1.2.3` create stable releases. Tags with a prerelease suffix, such as `v1.2.3-rc.1`, create prereleases.
+Do not create release tags manually. In particular, do not push an upstream tag object: that commit does not contain this fork's release automation or fork-specific fixes. Integrate upstream changes into `main` through the normal review process and let Release Please select the next fork version.
 
-## Create a release tag
+Release Please creates the draft before the build so users cannot observe a partially populated published release. With release immutability enabled for the repository, publishing the draft permanently locks its tag and assets.
 
-Do not push an upstream tag object directly: that commit does not contain this fork's release workflow and fork-specific fixes. First integrate the desired upstream tag into `main` through the normal review process. Then run the tests and create a fork-owned annotated tag at the reviewed fork commit:
-
-```sh
-version=v1.2.3
-git switch main
-git fetch origin main
-test "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)"
-test -z "$(git status --porcelain)"
-go test ./...
-git tag -a "$version" -m "ghtkn $version" "$(git rev-parse HEAD)"
-git push origin "refs/tags/$version:refs/tags/$version"
-```
-
-The explicit refspec does not force-update an existing remote tag. If the local tag or remote tag already exists at a different object, stop and investigate instead of deleting or overwriting it. Do not create a test tag: validate packaging locally with the commands below.
+If a release build fails after the draft is created, rerun the failed jobs from that original workflow run. Asset uploads replace any partial draft assets before publication, so the retry does not require deleting the tag or release.
 
 ## Validate without publishing
 
@@ -34,4 +21,11 @@ Confirm `dist/` contains the six mise-compatible archives, `ghtkn_checksums.txt`
 
 ## Repository setup
 
-GitHub Actions must be enabled for the repository. The workflow requests only the release and provenance permissions it needs: `contents: write`, `id-token: write`, `attestations: write`, and `artifact-metadata: write`. No upstream bot credentials or `TAKUMI_*` secrets are used.
+GitHub Actions must be enabled for the repository. Create and install a GitHub App on `dkarter/ghtkn` with repository `Contents: Read and write` and `Pull requests: Read and write` permissions. Configure these Actions values:
+
+- Repository variable `RELEASE_CLIENT_ID`: the GitHub App client ID.
+- Repository secret `RELEASE_PRIVATE_KEY`: the GitHub App private key.
+
+In the repository's **Settings > Releases**, enable **Release immutability**. This setting applies only to releases published after it is enabled.
+
+The App token is used only to maintain the release pull request and create its tag and draft release. Asset upload, provenance, and final publication use the job-scoped `GITHUB_TOKEN`. No upstream bot credentials or `TAKUMI_*` secrets are used.
