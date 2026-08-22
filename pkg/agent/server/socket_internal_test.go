@@ -1,11 +1,31 @@
+//go:build !windows
+
 package server
 
 import (
 	"errors"
+	"net"
 	"os"
 	"path/filepath"
 	"testing"
 )
+
+func shortSocketPath(t *testing.T) string {
+	t.Helper()
+	f, err := os.CreateTemp("/tmp", "ghtkn-*.sock")
+	if err != nil {
+		t.Fatal(err)
+	}
+	path := f.Name()
+	if err := f.Close(); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Remove(path); err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { _ = os.Remove(path) })
+	return path
+}
 
 func TestCleanupStaleSocket(t *testing.T) {
 	t.Parallel()
@@ -17,10 +37,14 @@ func TestCleanupStaleSocket(t *testing.T) {
 		}
 	})
 
-	t.Run("stale file removed", func(t *testing.T) {
+	t.Run("stale socket removed", func(t *testing.T) {
 		t.Parallel()
-		path := filepath.Join(t.TempDir(), "stale.sock")
-		if err := os.WriteFile(path, nil, socketFilePerm); err != nil {
+		path := shortSocketPath(t)
+		listener, err := net.Listen("unix", path)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := listener.Close(); err != nil {
 			t.Fatal(err)
 		}
 		if err := cleanupStaleSocket(t.Context(), path); err != nil {
@@ -28,6 +52,47 @@ func TestCleanupStaleSocket(t *testing.T) {
 		}
 		if _, err := os.Stat(path); !errors.Is(err, os.ErrNotExist) {
 			t.Fatalf("stale socket file was not removed: err=%v", err)
+		}
+	})
+
+	t.Run("regular file preserved", func(t *testing.T) {
+		t.Parallel()
+		path := filepath.Join(t.TempDir(), "agent.sock")
+		if err := os.WriteFile(path, []byte("keep"), socketFilePerm); err != nil {
+			t.Fatal(err)
+		}
+		if err := cleanupStaleSocket(t.Context(), path); err == nil {
+			t.Fatal("cleanupStaleSocket must reject a regular file")
+		}
+		content, err := os.ReadFile(path)
+		if err != nil {
+			t.Fatalf("regular file was removed: %v", err)
+		}
+		if string(content) != "keep" {
+			t.Fatalf("regular file was changed: %q", content)
+		}
+	})
+
+	t.Run("symlink preserved", func(t *testing.T) {
+		t.Parallel()
+		dir := t.TempDir()
+		target := filepath.Join(dir, "target")
+		path := filepath.Join(dir, "agent.sock")
+		if err := os.WriteFile(target, []byte("keep"), socketFilePerm); err != nil {
+			t.Fatal(err)
+		}
+		if err := os.Symlink(target, path); err != nil {
+			t.Fatal(err)
+		}
+		if err := cleanupStaleSocket(t.Context(), path); err == nil {
+			t.Fatal("cleanupStaleSocket must reject a symlink")
+		}
+		info, err := os.Lstat(path)
+		if err != nil {
+			t.Fatalf("symlink was removed: %v", err)
+		}
+		if info.Mode()&os.ModeSymlink == 0 {
+			t.Fatalf("socket path is no longer a symlink: mode=%v", info.Mode())
 		}
 	})
 }

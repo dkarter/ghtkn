@@ -44,14 +44,19 @@ func listen(ctx context.Context, path string) (net.Listener, error) {
 }
 
 // cleanupStaleSocket inspects an existing socket file at path.
-// If a live agent answers on it, it returns errAgentRunning. Otherwise the file is
-// treated as stale and removed so a new listener can be created.
+// If a live agent answers on it, it returns errAgentRunning. Otherwise an actual
+// Unix socket is treated as stale and removed so a new listener can be created.
+// Other file types, including symlinks, are left untouched.
 func cleanupStaleSocket(ctx context.Context, path string) error {
-	if _, err := os.Stat(path); err != nil {
+	info, err := os.Lstat(path)
+	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {
 			return nil
 		}
 		return fmt.Errorf("stat the socket: %w", err)
+	}
+	if info.Mode()&os.ModeSocket == 0 {
+		return fmt.Errorf("refuse to remove a non-socket at the socket path: %s", path)
 	}
 	dialer := &net.Dialer{Timeout: agentapi.DialTimeout}
 	conn, err := dialer.DialContext(ctx, "unix", path)
