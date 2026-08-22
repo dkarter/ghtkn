@@ -1,19 +1,109 @@
 ---
 name: Release
+
 on:
   push:
-    tags: [v*]
+    tags:
+      - "v*"
+
 permissions: {}
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   release:
-    uses: suzuki-shunsuke/go-release-workflow/.github/workflows/release.yaml@1cf29d7b17983b901021799b87a55d357cfff790 # v9.0.0
-    with:
-      go-version-file: go.mod
-      aqua_version: v2.62.3
-    secrets:
-      TAKUMI_GUARD_BOT_ID: ${{secrets.TAKUMI_GUARD_BOT_ID}}
+    if: github.repository == 'dkarter/ghtkn'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
     permissions:
+      artifact-metadata: write
+      attestations: write
       contents: write
       id-token: write
-      actions: read
-      attestations: write
+    env:
+      GORELEASER_VERSION: v2.17.1
+      SYFT_VERSION: v1.51.0
+    steps:
+      - name: Check out the release tag
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+          cache-dependency-path: go.sum
+
+      - name: Install pinned release tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          tool_bin="${RUNNER_TEMP}/ghtkn-release-tools"
+          mkdir -p "$tool_bin"
+          echo "$tool_bin" >> "$GITHUB_PATH"
+          GOBIN="$tool_bin" go install "github.com/goreleaser/goreleaser/v2@${GORELEASER_VERSION}"
+          GOBIN="$tool_bin" go install "github.com/anchore/syft/cmd/syft@${SYFT_VERSION}"
+
+      - name: Test
+        run: go test ./...
+
+      - name: Build release assets
+        run: goreleaser release --clean --skip=publish
+
+      - name: Validate release assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          archives=(
+            ghtkn_darwin_amd64.tar.gz
+            ghtkn_darwin_arm64.tar.gz
+            ghtkn_linux_amd64.tar.gz
+            ghtkn_linux_arm64.tar.gz
+            ghtkn_windows_amd64.zip
+            ghtkn_windows_arm64.zip
+          )
+          cp LICENSE dist/LICENSE
+          release_assets=(dist/ghtkn_checksums.txt dist/LICENSE)
+          for archive in "${archives[@]}"; do
+            test -f "dist/$archive"
+            test -f "dist/$archive.sbom.json"
+            release_assets+=("dist/$archive" "dist/$archive.sbom.json")
+          done
+          (cd dist && sha256sum --check ghtkn_checksums.txt)
+          archive_contents="${RUNNER_TEMP}/archive-contents"
+          for archive in dist/*.tar.gz; do
+            tar -tzf "$archive" > "$archive_contents"
+            grep -qx LICENSE "$archive_contents"
+          done
+          for archive in dist/*.zip; do
+            unzip -Z1 "$archive" > "$archive_contents"
+            grep -qx LICENSE "$archive_contents"
+          done
+          printf '%s\0' "${release_assets[@]}" > "${RUNNER_TEMP}/release-assets"
+
+      - name: Attest release provenance
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
+        with:
+          subject-checksums: dist/ghtkn_checksums.txt
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -d '' -t release_assets < "${RUNNER_TEMP}/release-assets"
+          release_args=(
+            --repo dkarter/ghtkn
+            --verify-tag
+            --generate-notes
+            --title "$GITHUB_REF_NAME"
+          )
+          if [[ "$GITHUB_REF_NAME" == *-* ]]; then
+            release_args+=(--prerelease)
+          fi
+          gh release create "$GITHUB_REF_NAME" "${release_assets[@]}" "${release_args[@]}"
