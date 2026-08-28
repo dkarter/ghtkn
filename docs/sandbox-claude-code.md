@@ -73,7 +73,10 @@ So the sandboxed side needs only the configuration file, which is readable by de
 No allowed domains, no write access, and none of the settings that weaken the sandbox.
 
 This assumes the agent is already running and unlocked outside the sandbox.
-`ghtkn agent unlock` needs a terminal, so run it in your own shell rather than through a coding agent.
+By default, `ghtkn agent unlock` needs a terminal. Run it in your own shell rather
+than giving a coding agent the passphrase. For trusted automation that obtains the
+passphrase directly from a secret provider, see the explicit `--passphrase-stdin`
+mode in [backend.md](backend.md#agent-backend).
 
 ### Older versions of ghtkn
 

@@ -63,7 +63,10 @@ ghtkn agent start
 ghtkn agent unlock
 ```
 
-`ghtkn agent unlock` prompts for the passphrase, so run it in your own shell rather than through a coding agent.
+By default, `ghtkn agent unlock` prompts for the passphrase. Run it in your own shell
+rather than giving a coding agent the passphrase. For trusted automation that obtains
+the passphrase directly from a secret provider, see the explicit
+`--passphrase-stdin` mode in [backend.md](backend.md#agent-backend).
 
 ## keyring backend
 

@@ -3,15 +3,28 @@ package unlock
 import (
 	"bufio"
 	"encoding/json"
+	"errors"
+	"io"
 	"log/slog"
 	"net"
 	"os"
 	"path/filepath"
+	"strings"
 	"sync"
 	"testing"
 
 	agentapi "github.com/suzuki-shunsuke/ghtkn-go-sdk/ghtkn/backend/agent"
 )
+
+type countingReader struct {
+	reader io.Reader
+	reads  int
+}
+
+func (r *countingReader) Read(p []byte) (int, error) {
+	r.reads++
+	return r.reader.Read(p) //nolint:wrapcheck // Preserve the wrapped reader's io.Reader contract in this test helper.
+}
 
 // serveAgent starts a Unix-socket server that answers each request with handler, and
 // returns a getEnv stub that points GHTKN_AGENT_SOCKET at it. Injecting the socket path
@@ -116,7 +129,7 @@ func TestController_Run_enableRefresh(t *testing.T) {
 		readPassphrase: func(string) ([]byte, error) { return []byte("pw"), nil },
 		getEnv:         getEnv,
 	}
-	if err := c.Run(t.Context(), slog.New(slog.DiscardHandler), true, 0); err != nil {
+	if err := c.Run(t.Context(), slog.New(slog.DiscardHandler), nil, false, true, 0); err != nil {
 		t.Fatal(err)
 	}
 
@@ -144,7 +157,7 @@ func TestController_Run_confirmRefreshRemoval(t *testing.T) {
 		confirm:        func(string) (bool, error) { return true, nil },
 		getEnv:         getEnv,
 	}
-	if err := c.Run(t.Context(), slog.New(slog.DiscardHandler), false, 0); err != nil {
+	if err := c.Run(t.Context(), slog.New(slog.DiscardHandler), nil, false, false, 0); err != nil {
 		t.Fatal(err)
 	}
 
@@ -174,7 +187,7 @@ func TestController_Run_declineRefreshRemoval(t *testing.T) {
 		confirm:        func(string) (bool, error) { return false, nil },
 		getEnv:         getEnv,
 	}
-	if err := c.Run(t.Context(), slog.New(slog.DiscardHandler), false, 0); err != nil {
+	if err := c.Run(t.Context(), slog.New(slog.DiscardHandler), nil, false, false, 0); err != nil {
 		t.Fatal(err)
 	}
 
@@ -182,5 +195,93 @@ func TestController_Run_declineRefreshRemoval(t *testing.T) {
 	defer mu.Unlock()
 	if len(unlocks) != 1 {
 		t.Fatalf("expected only the initial UNLOCK after declining, got %d", len(unlocks))
+	}
+}
+
+func TestController_Run_passphraseInput(t *testing.T) { //nolint:cyclop,funlen // The table covers both initialization states and both input modes.
+	t.Parallel()
+	tests := []struct {
+		name            string
+		initialized     bool
+		passphraseStdin bool
+		interactive     [][]byte
+		wantReads       int
+	}{
+		{
+			name:        "interactive existing key prompts once",
+			initialized: true,
+			interactive: [][]byte{[]byte("interactive")},
+			wantReads:   1,
+		},
+		{
+			name:        "interactive first-time key prompts twice",
+			interactive: [][]byte{[]byte("interactive"), []byte("interactive")},
+			wantReads:   2,
+		},
+		{
+			name:            "stdin existing key does not prompt",
+			initialized:     true,
+			passphraseStdin: true,
+		},
+		{
+			name:            "stdin first-time key consumes one value",
+			passphraseStdin: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			var mu sync.Mutex
+			var gotPassphrase []byte
+			getEnv := serveAgent(t, func(req *agentapi.Request) *agentapi.Response {
+				switch req.Command {
+				case agentapi.CommandStatus:
+					return &agentapi.Response{OK: true, Locked: true, Initialized: tt.initialized}
+				case agentapi.CommandUnlock:
+					mu.Lock()
+					gotPassphrase = append([]byte(nil), req.Passphrase...)
+					mu.Unlock()
+					return &agentapi.Response{OK: true}
+				default:
+					return &agentapi.Response{Error: "unexpected command"}
+				}
+			})
+
+			reads := 0
+			c := &Controller{
+				readPassphrase: func(string) ([]byte, error) {
+					if reads >= len(tt.interactive) {
+						return nil, errors.New("unexpected interactive passphrase read")
+					}
+					pass := tt.interactive[reads]
+					reads++
+					return append([]byte(nil), pass...), nil
+				},
+				getEnv: getEnv,
+			}
+			stdin := &countingReader{reader: strings.NewReader("piped\n")}
+			if err := c.Run(t.Context(), slog.New(slog.DiscardHandler), stdin, tt.passphraseStdin, false, 0); err != nil {
+				t.Fatal(err)
+			}
+			if reads != tt.wantReads {
+				t.Errorf("interactive reads = %d, want %d", reads, tt.wantReads)
+			}
+			if !tt.passphraseStdin && stdin.reads != 0 {
+				t.Errorf("standard input reads = %d, want 0 without --passphrase-stdin", stdin.reads)
+			}
+			if tt.passphraseStdin && stdin.reads == 0 {
+				t.Error("standard input was not read with --passphrase-stdin")
+			}
+			want := "interactive"
+			if tt.passphraseStdin {
+				want = "piped"
+			}
+			mu.Lock()
+			defer mu.Unlock()
+			if string(gotPassphrase) != want {
+				t.Errorf("wire passphrase = %q, want %q", gotPassphrase, want)
+			}
+		})
 	}
 }

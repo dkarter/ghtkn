@@ -91,6 +91,22 @@ Even after the agent starts, you can't get access tokens until you enter the pas
 ghtkn agent unlock
 ```
 
+Interactive prompting is the default and, on first use, asks for the new passphrase
+twice. For explicit non-interactive use, pipe exactly one passphrase and pass
+`--passphrase-stdin`; without the flag, `agent unlock` never reads a passphrase from
+standard input. The input may end at EOF or have one trailing newline. Embedded
+content is preserved, and first-time key creation uses the single piped value because
+the second interactive prompt is only confirmation.
+
+```sh
+op read --no-newline op://Private/ghtkn-passphrase/password | ghtkn agent unlock --enable-refresh --passphrase-stdin
+```
+
+This example reads the passphrase from 1Password without storing it in an environment
+variable or printing it. Avoid command arguments and environment variables for the
+passphrase because they can be exposed through process listings, shell history, or
+process environments.
+
 > [!NOTE]
 > [There is a third-party tool `yokonao/ghtkn-touchid`, which unlocks a local ghtkn agent with a passphrase protected by Touch ID in macOS Keychain.](https://github.com/yokonao/ghtkn-touchid)
 > This is a third-party tool, so we don't guarantee anything about this tool, but if you're interested in, please check it out.

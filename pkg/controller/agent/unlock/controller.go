@@ -1,8 +1,8 @@
 // Package unlock implements the 'ghtkn agent unlock' command: the client half of the
-// locked-start workflow. It prompts for the agent passphrase on the terminal and
-// sends it to a running agent over the Unix domain socket so the agent can load its
-// data key and make cached tokens readable. The agent server lives in
-// pkg/agent/server.
+// locked-start workflow. It reads the agent passphrase from the terminal by default,
+// or from standard input when explicitly requested, and sends it to a running agent
+// over the Unix domain socket so the agent can load its data key and make cached
+// tokens readable. The agent server lives in pkg/agent/server.
 package unlock
 
 import (

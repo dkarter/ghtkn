@@ -12,6 +12,7 @@ package agent
 import (
 	"context"
 	"fmt"
+	"io"
 	"runtime"
 
 	"github.com/spf13/cobra"
@@ -77,6 +78,7 @@ type unlockArgs struct {
 	*flag.GlobalFlags
 
 	EnableRefresh   bool
+	PassphraseStdin bool
 	RefreshTokenTTL string
 }
 
@@ -210,6 +212,10 @@ The agent starts locked. This command prompts for the passphrase on the terminal
 and sends it to the agent over the socket so it can decrypt cached tokens. On first
 use it asks for a new passphrase twice to confirm it.
 
+Pass --passphrase-stdin to read the passphrase from standard input instead. Standard
+input is never read without this explicit flag. One trailing newline is removed; on
+first use the single piped value creates the key without interactive confirmation.
+
 Pass --enable-refresh to let the agent refresh an expiring access token with a
 stored refresh token instead of re-running the device flow. This is bound to the
 passphrase on purpose: it cannot be enabled without unlocking the agent. It is
@@ -222,13 +228,16 @@ than --refresh-token-ttl (default 7 days) so an unused refresh token does not li
 The TTL takes a number with a d (day), w (week), or m (30-day month) suffix, e.g.
 14d, 4w, 2m, and must be less than 6 months.
 
-$ ghtkn agent unlock`,
+$ ghtkn agent unlock
+$ op read --no-newline op://Private/ghtkn-passphrase/password | ghtkn agent unlock --enable-refresh --passphrase-stdin`,
 		RunE: func(cmd *cobra.Command, _ []string) error {
-			return r.unlock(cmd.Context(), args)
+			return r.unlock(cmd.Context(), cmd.InOrStdin(), args)
 		},
 	}
 	cmd.Flags().BoolVar(&args.EnableRefresh, "enable-refresh",
 		false, "Enable refreshing expiring access tokens with stored refresh tokens")
+	cmd.Flags().BoolVar(&args.PassphraseStdin, "passphrase-stdin",
+		false, "Read the agent passphrase from standard input")
 	// No default value: an empty value means the flag was not given, which lets the
 	// agent apply its own default (seven days) instead of duplicating it here, and lets
 	// this command tell "not given" from an explicit value it must reject without
@@ -240,7 +249,7 @@ $ ghtkn agent unlock`,
 
 // unlock executes the 'agent unlock' command logic.
 // It configures the log level and unlocks the running agent.
-func (r *runner) unlock(ctx context.Context, args *unlockArgs) error {
+func (r *runner) unlock(ctx context.Context, passphraseReader io.Reader, args *unlockArgs) error {
 	if err := r.logger.SetLevel(args.LogLevel); err != nil {
 		return fmt.Errorf("set log level: %w", err)
 	}
@@ -252,7 +261,7 @@ func (r *runner) unlock(ctx context.Context, args *unlockArgs) error {
 	if err != nil {
 		return err
 	}
-	return unlock.New().Run(ctx, r.logger.Logger, args.EnableRefresh, ttl) //nolint:wrapcheck
+	return unlock.New().Run(ctx, r.logger.Logger, passphraseReader, args.PassphraseStdin, args.EnableRefresh, ttl) //nolint:wrapcheck
 }
 
 // lockCommand returns the CLI command definition for the 'agent lock' subcommand.

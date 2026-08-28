@@ -3,6 +3,7 @@ package unlock
 import (
 	"context"
 	"fmt"
+	"io"
 	"log/slog"
 	"runtime"
 	"time"
@@ -12,17 +13,16 @@ import (
 	"github.com/suzuki-shunsuke/ghtkn/pkg/agent/tty"
 )
 
-// Run prompts for the agent passphrase on the terminal and sends it to a running
-// agent over the socket, loading (or creating) the data key. It is the client half
-// of the locked-start workflow: 'ghtkn agent start' runs locked in the background,
-// and 'ghtkn agent unlock' supplies the passphrase interactively.
+// Run reads the agent passphrase interactively by default, or from passphraseReader
+// when passphraseStdin is explicitly enabled, and sends it to a running agent over
+// the socket, loading (or creating) the data key.
 //
 // enableRefreshToken binds refresh-token enablement to this passphrase-authenticated
 // unlock. The current refresh state is logged so the user can notice if it was enabled
 // without their intent (e.g. by an injected flag). refreshTokenTTL is how long a stored
 // token may sit unused before the agent discards it; it applies only when refresh is
 // enabled.
-func (c *Controller) Run(ctx context.Context, logger *slog.Logger, enableRefreshToken bool, refreshTokenTTL time.Duration) error {
+func (c *Controller) Run(ctx context.Context, logger *slog.Logger, passphraseReader io.Reader, passphraseStdin, enableRefreshToken bool, refreshTokenTTL time.Duration) error {
 	// Best-effort, before the passphrase is read: block same-user memory reads and core
 	// dumps of this process (Linux-only, no-op elsewhere). This command is usually
 	// short-lived, but it holds the passphrase while it waits at the refresh-token
@@ -53,18 +53,12 @@ func (c *Controller) Run(ctx context.Context, logger *slog.Logger, enableRefresh
 	// passphrase is entered (see doUnlock).
 	logRefreshIntent(logger, enableRefreshToken)
 
-	// status.Initialized reports whether a key file already exists. On first use
-	// (not initialized) PromptPassphrase asks twice and verifies the entries match.
-	pass, err := tty.PromptPassphrase(c.readPassphrase, status.Initialized)
+	pass, err := c.getPassphrase(passphraseReader, passphraseStdin, status.Initialized)
 	if err != nil {
-		return err //nolint:wrapcheck
+		return err
 	}
 	// Best-effort scrubbing of the passphrase bytes.
-	defer func() {
-		for i := range pass {
-			pass[i] = 0
-		}
-	}()
+	defer clear(pass)
 
 	resp, err := c.doUnlock(ctx, logger, path, pass, enableRefreshToken, refreshTokenTTL)
 	if err != nil {
@@ -79,6 +73,24 @@ func (c *Controller) Run(ctx context.Context, logger *slog.Logger, enableRefresh
 
 	logger.Info("ghtkn agent unlocked", "refresh_token_enabled", resp.RefreshTokenEnabled)
 	return nil
+}
+
+func (c *Controller) getPassphrase(r io.Reader, fromStdin, initialized bool) ([]byte, error) {
+	if fromStdin {
+		// A piped value is already explicit input, so first-time creation consumes it
+		// once instead of applying the terminal-only confirmation prompt.
+		pass, err := tty.ReadPassphraseStdin(r)
+		if err != nil {
+			return nil, fmt.Errorf("read the agent passphrase from standard input: %w", err)
+		}
+		return pass, nil
+	}
+	// On first use PromptPassphrase asks twice and verifies the entries match.
+	pass, err := tty.PromptPassphrase(c.readPassphrase, initialized)
+	if err != nil {
+		return nil, fmt.Errorf("prompt for the agent passphrase: %w", err)
+	}
+	return pass, nil
 }
 
 // logRefreshIntent surfaces, before the passphrase is entered, whether this unlock will
