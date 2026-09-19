@@ -4,7 +4,7 @@ set -eu
 
 cd "$(dirname "$0")/.."
 
-help=$(ghtkn help-all)
+help=$(go run ./cmd/ghtkn help-all)
 
 echo "# Usage
 

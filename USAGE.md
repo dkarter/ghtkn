@@ -174,7 +174,8 @@ It connects to the agent's Unix domain socket and reports the number of cached
 access tokens, along with the ghtkn version the running agent was built from and
 the agent protocol version it speaks. The agent keeps running the binary it was
 started with, so an agent version older than 'ghtkn --version' means the agent
-must be restarted. It exits 0 whether or not the agent is running.
+must be restarted. It exits 0 whether or not the agent is running unless --check
+is set. With --check, it exits 1 when the agent is not running.
 
 $ ghtkn agent status
 
@@ -182,7 +183,8 @@ Usage:
   ghtkn agent status [flags]
 
 Flags:
-  -h, --help   help for status
+      --check   Exit 1 when the agent is not running
+  -h, --help    help for status
 
 Global Flags:
   -c, --config string      configuration file path [$GHTKN_CONFIG]
@@ -220,6 +222,10 @@ The agent starts locked. This command prompts for the passphrase on the terminal
 and sends it to the agent over the socket so it can decrypt cached tokens. On first
 use it asks for a new passphrase twice to confirm it.
 
+Pass --passphrase-stdin to read the passphrase from standard input instead. Standard
+input is never read without this explicit flag. One trailing newline is removed; on
+first use the single piped value creates the key without interactive confirmation.
+
 Pass --enable-refresh to let the agent refresh an expiring access token with a
 stored refresh token instead of re-running the device flow. This is bound to the
 passphrase on purpose: it cannot be enabled without unlocking the agent. It is
@@ -233,6 +239,7 @@ The TTL takes a number with a d (day), w (week), or m (30-day month) suffix, e.g
 14d, 4w, 2m, and must be less than 6 months.
 
 $ ghtkn agent unlock
+$ op read --no-newline op://Private/ghtkn-passphrase/password | ghtkn agent unlock --enable-refresh --passphrase-stdin
 
 Usage:
   ghtkn agent unlock [flags]
@@ -240,6 +247,7 @@ Usage:
 Flags:
       --enable-refresh             Enable refreshing expiring access tokens with stored refresh tokens
   -h, --help                       help for unlock
+      --passphrase-stdin           Read the agent passphrase from standard input
       --refresh-token-ttl string   How long a stored token may sit unused before the agent discards it, e.g. 14d/4w/2m (default 7d; only with --enable-refresh)
 
 Global Flags:
@@ -720,17 +728,20 @@ Global Flags:
 $ ghtkn revoke --help
 Revoke GitHub App User Access Tokens via GitHub's credential revocation API and remove them from the backend.
 
-Each argument is classified by its prefix: arguments starting with a GitHub token prefix (ghp_, github_pat_, gho_, ghu_, ghr_) are revoked directly as raw access tokens, and all other arguments are treated as app names whose stored tokens are revoked and removed from the backend.
+Pass a raw token with --token-stdin so it does not appear in process arguments or shell history. One token is read from the first line of standard input. Positional raw tokens remain supported for compatibility but are unsafe because other processes and shell history may expose them.
+
+Positional arguments that are not raw tokens are treated as app names whose stored tokens are revoked and removed from the backend.
 When no argument is given, the token stored for GHTKN_APP (or the default app) is revoked.
 
 With --all, the stored tokens of every app in the config are revoked. This is meant for incident response: when the environment running ghtkn is compromised, all stored tokens can be revoked at once. App name arguments are ignored when --all is set, but raw access tokens are still revoked as usual.
 
 Usage:
-  ghtkn revoke [<access token | app name>...] [flags]
+  ghtkn revoke [<app name>...] [flags]
 
 Flags:
-      --all    Revoke the stored tokens of every app in the config
-  -h, --help   help for revoke
+      --all           Revoke the stored tokens of every app in the config
+  -h, --help          help for revoke
+      --token-stdin   Read one raw access token from the first line of standard input (recommended for raw tokens)
 
 Global Flags:
   -c, --config string      configuration file path [$GHTKN_CONFIG]

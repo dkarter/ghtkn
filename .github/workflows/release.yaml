@@ -18,6 +18,8 @@ jobs:
     if: github.repository == 'dkarter/ghtkn'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
+    permissions:
+      contents: read
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
       tag_name: ${{ steps.release.outputs.tag_name }}
@@ -30,6 +32,8 @@ jobs:
           private-key: ${{ secrets.RELEASE_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repositories: ${{ github.event.repository.name }}
+          permission-contents: write
+          permission-pull-requests: write
 
       - name: Verify GitHub App repository access
         env:
@@ -60,8 +64,6 @@ jobs:
       contents: write
       id-token: write
     env:
-      GORELEASER_VERSION: v2.17.1
-      SYFT_VERSION: v1.51.0
       TAG_NAME: ${{ needs.release-please.outputs.tag_name }}
     steps:
       - name: Check out the release tag
@@ -71,38 +73,20 @@ jobs:
           persist-credentials: false
           ref: ${{ env.TAG_NAME }}
 
-      - name: Set up Go
-        id: setup-go
-        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+      - name: Set up release tools
+        uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
         with:
-          go-version-file: go.mod
-          cache-dependency-path: go.sum
+          version: 2026.9.11
+          install_args: go goreleaser syft
 
-      - name: Configure release tool path
-        id: release-tool-path
-        shell: bash
-        run: |
-          set -euo pipefail
-          tool_bin="${RUNNER_TEMP}/ghtkn-release-tools"
-          mkdir -p "$tool_bin"
-          echo "RELEASE_TOOL_BIN=$tool_bin" >> "$GITHUB_ENV"
-          echo "path=$tool_bin" >> "$GITHUB_OUTPUT"
-          echo "$tool_bin" >> "$GITHUB_PATH"
-
-      - name: Cache pinned release tools
-        id: release-tools-cache
+      - name: Cache Go dependencies
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
-          path: ${{ steps.release-tool-path.outputs.path }}
-          key: release-tools-${{ runner.os }}-${{ runner.arch }}-go-${{ steps.setup-go.outputs.go-version }}-${{ env.GORELEASER_VERSION }}-${{ env.SYFT_VERSION }}
-
-      - name: Install pinned release tools
-        if: steps.release-tools-cache.outputs.cache-hit != 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
-          GOBIN="$RELEASE_TOOL_BIN" go install "github.com/goreleaser/goreleaser/v2@${GORELEASER_VERSION}"
-          GOBIN="$RELEASE_TOOL_BIN" go install "github.com/anchore/syft/cmd/syft@${SYFT_VERSION}"
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: go-${{runner.os}}-${{runner.arch}}-${{hashFiles('go.sum')}}
+          restore-keys: go-${{runner.os}}-${{runner.arch}}-
 
       - name: Test
         run: go test ./...

@@ -1,6 +1,11 @@
 ---
 name: actionlint
-on: pull_request
+on:
+  pull_request:
+    paths:
+      - .github/workflows/**
+      - mise.lock
+      - mise.toml
 concurrency:
   group: ${{ github.workflow }}--${{ github.ref }}
   cancel-in-progress: true
@@ -10,6 +15,13 @@ jobs:
     timeout-minutes: 10
     permissions:
       contents: read
-      pull-requests: write
     steps:
-      - uses: suzuki-shunsuke/actionlint-action@0c0a95d9968702f70d50b0c6eabaa4dc845436ac # v0.1.4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
+        with:
+          version: 2026.9.11
+          install_args: actionlint ghalint
+      - run: actionlint
+      - run: ghalint run

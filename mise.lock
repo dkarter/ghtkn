@@ -2,6 +2,137 @@
 
 lockfile_version = 2
 
+[[tools.actionlint]]
+version = "1.7.12"
+backend = "aqua:rhysd/actionlint"
+specifiers = ["1.7.12"]
+
+[tools.actionlint."platforms.linux-arm64"]
+checksum = "sha256:325e971b6ba9bfa504672e29be93c24981eeb1c07576d730e9f7c8805afff0c6"
+url = "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/rhysd/actionlint/releases/assets/384924897"
+provenance = "github-attestations"
+
+[tools.actionlint."platforms.linux-arm64-musl"]
+checksum = "sha256:325e971b6ba9bfa504672e29be93c24981eeb1c07576d730e9f7c8805afff0c6"
+url = "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/rhysd/actionlint/releases/assets/384924897"
+provenance = "github-attestations"
+
+[tools.actionlint."platforms.linux-x64"]
+checksum = "sha256:8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8"
+url = "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/rhysd/actionlint/releases/assets/384924896"
+provenance = "github-attestations"
+
+[tools.actionlint."platforms.linux-x64-baseline"]
+checksum = "sha256:8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8"
+url = "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/rhysd/actionlint/releases/assets/384924896"
+provenance = "github-attestations"
+
+[tools.actionlint."platforms.linux-x64-musl"]
+checksum = "sha256:8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8"
+url = "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/rhysd/actionlint/releases/assets/384924896"
+provenance = "github-attestations"
+
+[tools.actionlint."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8"
+url = "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/rhysd/actionlint/releases/assets/384924896"
+provenance = "github-attestations"
+
+[tools.actionlint."platforms.macos-arm64"]
+checksum = "sha256:aba9ced2dee8d27fecca3dc7feb1a7f9a52caefa1eb46f3271ea66b6e0e6953f"
+url = "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/rhysd/actionlint/releases/assets/384924893"
+provenance = "github-attestations"
+
+[tools.actionlint."platforms.macos-x64"]
+checksum = "sha256:5b44c3bc2255115c9b69e30efc0fecdf498fdb63c5d58e17084fd5f16324c644"
+url = "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/rhysd/actionlint/releases/assets/384924880"
+provenance = "github-attestations"
+
+[tools.actionlint."platforms.macos-x64-baseline"]
+checksum = "sha256:5b44c3bc2255115c9b69e30efc0fecdf498fdb63c5d58e17084fd5f16324c644"
+url = "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/rhysd/actionlint/releases/assets/384924880"
+provenance = "github-attestations"
+
+[tools.actionlint."platforms.windows-x64"]
+checksum = "sha256:6e7241b51e6817ea6a047693d8e6fed13b31819c9a0dd6c5a726e1592d22f6e9"
+url = "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_windows_amd64.zip"
+url_api = "https://api.github.com/repos/rhysd/actionlint/releases/assets/384924919"
+provenance = "github-attestations"
+
+[tools.actionlint."platforms.windows-x64-baseline"]
+checksum = "sha256:6e7241b51e6817ea6a047693d8e6fed13b31819c9a0dd6c5a726e1592d22f6e9"
+url = "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_windows_amd64.zip"
+url_api = "https://api.github.com/repos/rhysd/actionlint/releases/assets/384924919"
+provenance = "github-attestations"
+
+[[tools."aqua:reviewdog/reviewdog"]]
+version = "0.21.2"
+backend = "aqua:reviewdog/reviewdog"
+specifiers = ["0.21.2"]
+
+[tools."aqua:reviewdog/reviewdog"."platforms.linux-arm64"]
+checksum = "sha256:56854c078853ea53c73e1e4d627e6a90d6b68185c46edd46aad8beb94564b948"
+url = "https://github.com/reviewdog/reviewdog/releases/download/v0.21.2/reviewdog_0.21.2_Linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/reviewdog/reviewdog/releases/assets/573154524"
+
+[tools."aqua:reviewdog/reviewdog"."platforms.linux-arm64-musl"]
+checksum = "sha256:56854c078853ea53c73e1e4d627e6a90d6b68185c46edd46aad8beb94564b948"
+url = "https://github.com/reviewdog/reviewdog/releases/download/v0.21.2/reviewdog_0.21.2_Linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/reviewdog/reviewdog/releases/assets/573154524"
+
+[tools."aqua:reviewdog/reviewdog"."platforms.linux-x64"]
+checksum = "sha256:30413aa3c7443e9c3c157fe5766cad40e3bb39a32e210ee69b710a8d5c4b8e51"
+url = "https://github.com/reviewdog/reviewdog/releases/download/v0.21.2/reviewdog_0.21.2_Linux_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/reviewdog/reviewdog/releases/assets/573154534"
+
+[tools."aqua:reviewdog/reviewdog"."platforms.linux-x64-baseline"]
+checksum = "sha256:30413aa3c7443e9c3c157fe5766cad40e3bb39a32e210ee69b710a8d5c4b8e51"
+url = "https://github.com/reviewdog/reviewdog/releases/download/v0.21.2/reviewdog_0.21.2_Linux_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/reviewdog/reviewdog/releases/assets/573154534"
+
+[tools."aqua:reviewdog/reviewdog"."platforms.linux-x64-musl"]
+checksum = "sha256:30413aa3c7443e9c3c157fe5766cad40e3bb39a32e210ee69b710a8d5c4b8e51"
+url = "https://github.com/reviewdog/reviewdog/releases/download/v0.21.2/reviewdog_0.21.2_Linux_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/reviewdog/reviewdog/releases/assets/573154534"
+
+[tools."aqua:reviewdog/reviewdog"."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:30413aa3c7443e9c3c157fe5766cad40e3bb39a32e210ee69b710a8d5c4b8e51"
+url = "https://github.com/reviewdog/reviewdog/releases/download/v0.21.2/reviewdog_0.21.2_Linux_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/reviewdog/reviewdog/releases/assets/573154534"
+
+[tools."aqua:reviewdog/reviewdog"."platforms.macos-arm64"]
+checksum = "sha256:54497b0f3378936caa22a3a11d796acefe4d5f35d86f5cc84c622f941c3c0c68"
+url = "https://github.com/reviewdog/reviewdog/releases/download/v0.21.2/reviewdog_0.21.2_Darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/reviewdog/reviewdog/releases/assets/573154522"
+
+[tools."aqua:reviewdog/reviewdog"."platforms.macos-x64"]
+checksum = "sha256:3002ad37ee7d344de25e3c630a293aa322fc10d7b9c3fc6d4e836b616d084ae5"
+url = "https://github.com/reviewdog/reviewdog/releases/download/v0.21.2/reviewdog_0.21.2_Darwin_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/reviewdog/reviewdog/releases/assets/573154525"
+
+[tools."aqua:reviewdog/reviewdog"."platforms.macos-x64-baseline"]
+checksum = "sha256:3002ad37ee7d344de25e3c630a293aa322fc10d7b9c3fc6d4e836b616d084ae5"
+url = "https://github.com/reviewdog/reviewdog/releases/download/v0.21.2/reviewdog_0.21.2_Darwin_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/reviewdog/reviewdog/releases/assets/573154525"
+
+[tools."aqua:reviewdog/reviewdog"."platforms.windows-x64"]
+checksum = "sha256:397959e250bfc6bc801fba34b7d4922f2eaa4763deacf7d32ef11bffb284a315"
+url = "https://github.com/reviewdog/reviewdog/releases/download/v0.21.2/reviewdog_0.21.2_Windows_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/reviewdog/reviewdog/releases/assets/573154505"
+
+[tools."aqua:reviewdog/reviewdog"."platforms.windows-x64-baseline"]
+checksum = "sha256:397959e250bfc6bc801fba34b7d4922f2eaa4763deacf7d32ef11bffb284a315"
+url = "https://github.com/reviewdog/reviewdog/releases/download/v0.21.2/reviewdog_0.21.2_Windows_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/reviewdog/reviewdog/releases/assets/573154505"
+
 [[tools."aqua:suzuki-shunsuke/langcheck"]]
 version = "0.0.1"
 backend = "aqua:suzuki-shunsuke/langcheck"
@@ -25,7 +156,19 @@ url = "https://github.com/suzuki-shunsuke/langcheck/releases/download/v0.0.1/lan
 url_api = "https://api.github.com/repos/suzuki-shunsuke/langcheck/releases/assets/473932873"
 provenance = "github-attestations"
 
+[tools."aqua:suzuki-shunsuke/langcheck"."platforms.linux-x64-baseline"]
+checksum = "sha256:a1629059eeb51f499b6869cd734f25f682126b83ae1ff0865ac2fcdfb1ed8b32"
+url = "https://github.com/suzuki-shunsuke/langcheck/releases/download/v0.0.1/langcheck_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/langcheck/releases/assets/473932873"
+provenance = "github-attestations"
+
 [tools."aqua:suzuki-shunsuke/langcheck"."platforms.linux-x64-musl"]
+checksum = "sha256:a1629059eeb51f499b6869cd734f25f682126b83ae1ff0865ac2fcdfb1ed8b32"
+url = "https://github.com/suzuki-shunsuke/langcheck/releases/download/v0.0.1/langcheck_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/langcheck/releases/assets/473932873"
+provenance = "github-attestations"
+
+[tools."aqua:suzuki-shunsuke/langcheck"."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:a1629059eeb51f499b6869cd734f25f682126b83ae1ff0865ac2fcdfb1ed8b32"
 url = "https://github.com/suzuki-shunsuke/langcheck/releases/download/v0.0.1/langcheck_linux_amd64.tar.gz"
 url_api = "https://api.github.com/repos/suzuki-shunsuke/langcheck/releases/assets/473932873"
@@ -37,7 +180,25 @@ url = "https://github.com/suzuki-shunsuke/langcheck/releases/download/v0.0.1/lan
 url_api = "https://api.github.com/repos/suzuki-shunsuke/langcheck/releases/assets/473932863"
 provenance = "github-attestations"
 
+[tools."aqua:suzuki-shunsuke/langcheck"."platforms.macos-x64"]
+checksum = "sha256:a08838fe7d3df20a7f5eb9063dcd07a00411b6e54877fc49797f086ca9597027"
+url = "https://github.com/suzuki-shunsuke/langcheck/releases/download/v0.0.1/langcheck_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/langcheck/releases/assets/473932861"
+provenance = "github-attestations"
+
+[tools."aqua:suzuki-shunsuke/langcheck"."platforms.macos-x64-baseline"]
+checksum = "sha256:a08838fe7d3df20a7f5eb9063dcd07a00411b6e54877fc49797f086ca9597027"
+url = "https://github.com/suzuki-shunsuke/langcheck/releases/download/v0.0.1/langcheck_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/langcheck/releases/assets/473932861"
+provenance = "github-attestations"
+
 [tools."aqua:suzuki-shunsuke/langcheck"."platforms.windows-x64"]
+checksum = "sha256:d4d153863c1e564cded12ccfebc41367268f3b8d9af093c92eb2f12cc9120ec2"
+url = "https://github.com/suzuki-shunsuke/langcheck/releases/download/v0.0.1/langcheck_windows_amd64.zip"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/langcheck/releases/assets/473932882"
+provenance = "github-attestations"
+
+[tools."aqua:suzuki-shunsuke/langcheck"."platforms.windows-x64-baseline"]
 checksum = "sha256:d4d153863c1e564cded12ccfebc41367268f3b8d9af093c92eb2f12cc9120ec2"
 url = "https://github.com/suzuki-shunsuke/langcheck/releases/download/v0.0.1/langcheck_windows_amd64.zip"
 url_api = "https://api.github.com/repos/suzuki-shunsuke/langcheck/releases/assets/473932882"
@@ -72,12 +233,28 @@ url_api = "https://api.github.com/repos/suzuki-shunsuke/nllint/releases/assets/4
 [tools."aqua:suzuki-shunsuke/nllint"."platforms.linux-x64".provenance.slsa]
 url = "https://github.com/suzuki-shunsuke/nllint/releases/download/v1.2.0/multiple.intoto.jsonl"
 
+[tools."aqua:suzuki-shunsuke/nllint"."platforms.linux-x64-baseline"]
+checksum = "sha256:e5d885845fa6a36c5984c15e8dc6988aa8ea49683b999cb797ed87a9196b99ef"
+url = "https://github.com/suzuki-shunsuke/nllint/releases/download/v1.2.0/nllint_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/nllint/releases/assets/473956944"
+
+[tools."aqua:suzuki-shunsuke/nllint"."platforms.linux-x64-baseline".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/nllint/releases/download/v1.2.0/multiple.intoto.jsonl"
+
 [tools."aqua:suzuki-shunsuke/nllint"."platforms.linux-x64-musl"]
 checksum = "sha256:e5d885845fa6a36c5984c15e8dc6988aa8ea49683b999cb797ed87a9196b99ef"
 url = "https://github.com/suzuki-shunsuke/nllint/releases/download/v1.2.0/nllint_linux_amd64.tar.gz"
 url_api = "https://api.github.com/repos/suzuki-shunsuke/nllint/releases/assets/473956944"
 
 [tools."aqua:suzuki-shunsuke/nllint"."platforms.linux-x64-musl".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/nllint/releases/download/v1.2.0/multiple.intoto.jsonl"
+
+[tools."aqua:suzuki-shunsuke/nllint"."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:e5d885845fa6a36c5984c15e8dc6988aa8ea49683b999cb797ed87a9196b99ef"
+url = "https://github.com/suzuki-shunsuke/nllint/releases/download/v1.2.0/nllint_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/nllint/releases/assets/473956944"
+
+[tools."aqua:suzuki-shunsuke/nllint"."platforms.linux-x64-musl-baseline".provenance.slsa]
 url = "https://github.com/suzuki-shunsuke/nllint/releases/download/v1.2.0/multiple.intoto.jsonl"
 
 [tools."aqua:suzuki-shunsuke/nllint"."platforms.macos-arm64"]
@@ -88,6 +265,22 @@ url_api = "https://api.github.com/repos/suzuki-shunsuke/nllint/releases/assets/4
 [tools."aqua:suzuki-shunsuke/nllint"."platforms.macos-arm64".provenance.slsa]
 url = "https://github.com/suzuki-shunsuke/nllint/releases/download/v1.2.0/multiple.intoto.jsonl"
 
+[tools."aqua:suzuki-shunsuke/nllint"."platforms.macos-x64"]
+checksum = "sha256:0d9a6cd52f337f597e3c06bf29bdae55bbe58be2447e1d7cc2818da10336626c"
+url = "https://github.com/suzuki-shunsuke/nllint/releases/download/v1.2.0/nllint_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/nllint/releases/assets/473956933"
+
+[tools."aqua:suzuki-shunsuke/nllint"."platforms.macos-x64".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/nllint/releases/download/v1.2.0/multiple.intoto.jsonl"
+
+[tools."aqua:suzuki-shunsuke/nllint"."platforms.macos-x64-baseline"]
+checksum = "sha256:0d9a6cd52f337f597e3c06bf29bdae55bbe58be2447e1d7cc2818da10336626c"
+url = "https://github.com/suzuki-shunsuke/nllint/releases/download/v1.2.0/nllint_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/nllint/releases/assets/473956933"
+
+[tools."aqua:suzuki-shunsuke/nllint"."platforms.macos-x64-baseline".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/nllint/releases/download/v1.2.0/multiple.intoto.jsonl"
+
 [tools."aqua:suzuki-shunsuke/nllint"."platforms.windows-x64"]
 checksum = "sha256:896a1d33cfcfca4b59ae2d6d7a3ad25e881c7711e82cf303d391fdbb74061f87"
 url = "https://github.com/suzuki-shunsuke/nllint/releases/download/v1.2.0/nllint_windows_amd64.zip"
@@ -95,6 +288,271 @@ url_api = "https://api.github.com/repos/suzuki-shunsuke/nllint/releases/assets/4
 
 [tools."aqua:suzuki-shunsuke/nllint"."platforms.windows-x64".provenance.slsa]
 url = "https://github.com/suzuki-shunsuke/nllint/releases/download/v1.2.0/multiple.intoto.jsonl"
+
+[tools."aqua:suzuki-shunsuke/nllint"."platforms.windows-x64-baseline"]
+checksum = "sha256:896a1d33cfcfca4b59ae2d6d7a3ad25e881c7711e82cf303d391fdbb74061f87"
+url = "https://github.com/suzuki-shunsuke/nllint/releases/download/v1.2.0/nllint_windows_amd64.zip"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/nllint/releases/assets/473956950"
+
+[tools."aqua:suzuki-shunsuke/nllint"."platforms.windows-x64-baseline".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/nllint/releases/download/v1.2.0/multiple.intoto.jsonl"
+
+[[tools.cmdx]]
+version = "2.0.2"
+backend = "aqua:suzuki-shunsuke/cmdx"
+specifiers = ["2.0.2"]
+
+[tools.cmdx."platforms.linux-arm64"]
+checksum = "sha256:691eb4cc3929a5e065f7c2f977cee8306d817cb0f8de9d5b4b4ed38c027cec41"
+url = "https://github.com/suzuki-shunsuke/cmdx/releases/download/v2.0.2/cmdx_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/cmdx/releases/assets/273022257"
+
+[tools.cmdx."platforms.linux-arm64".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/cmdx/releases/download/v2.0.2/multiple.intoto.jsonl"
+
+[tools.cmdx."platforms.linux-arm64-musl"]
+checksum = "sha256:691eb4cc3929a5e065f7c2f977cee8306d817cb0f8de9d5b4b4ed38c027cec41"
+url = "https://github.com/suzuki-shunsuke/cmdx/releases/download/v2.0.2/cmdx_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/cmdx/releases/assets/273022257"
+
+[tools.cmdx."platforms.linux-arm64-musl".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/cmdx/releases/download/v2.0.2/multiple.intoto.jsonl"
+
+[tools.cmdx."platforms.linux-x64"]
+checksum = "sha256:40bc7b5f472211b22c4786d55f6859fa8093f1a373ff40a2dccd29bd3d11cf96"
+url = "https://github.com/suzuki-shunsuke/cmdx/releases/download/v2.0.2/cmdx_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/cmdx/releases/assets/273022255"
+
+[tools.cmdx."platforms.linux-x64".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/cmdx/releases/download/v2.0.2/multiple.intoto.jsonl"
+
+[tools.cmdx."platforms.linux-x64-baseline"]
+checksum = "sha256:40bc7b5f472211b22c4786d55f6859fa8093f1a373ff40a2dccd29bd3d11cf96"
+url = "https://github.com/suzuki-shunsuke/cmdx/releases/download/v2.0.2/cmdx_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/cmdx/releases/assets/273022255"
+
+[tools.cmdx."platforms.linux-x64-baseline".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/cmdx/releases/download/v2.0.2/multiple.intoto.jsonl"
+
+[tools.cmdx."platforms.linux-x64-musl"]
+checksum = "sha256:40bc7b5f472211b22c4786d55f6859fa8093f1a373ff40a2dccd29bd3d11cf96"
+url = "https://github.com/suzuki-shunsuke/cmdx/releases/download/v2.0.2/cmdx_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/cmdx/releases/assets/273022255"
+
+[tools.cmdx."platforms.linux-x64-musl".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/cmdx/releases/download/v2.0.2/multiple.intoto.jsonl"
+
+[tools.cmdx."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:40bc7b5f472211b22c4786d55f6859fa8093f1a373ff40a2dccd29bd3d11cf96"
+url = "https://github.com/suzuki-shunsuke/cmdx/releases/download/v2.0.2/cmdx_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/cmdx/releases/assets/273022255"
+
+[tools.cmdx."platforms.linux-x64-musl-baseline".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/cmdx/releases/download/v2.0.2/multiple.intoto.jsonl"
+
+[tools.cmdx."platforms.macos-arm64"]
+checksum = "sha256:fbd7daddbb65abd0de5c6b898f2219588c7d1a71df6808137d0a628858e7777b"
+url = "https://github.com/suzuki-shunsuke/cmdx/releases/download/v2.0.2/cmdx_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/cmdx/releases/assets/273022253"
+
+[tools.cmdx."platforms.macos-arm64".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/cmdx/releases/download/v2.0.2/multiple.intoto.jsonl"
+
+[tools.cmdx."platforms.macos-x64"]
+checksum = "sha256:768b8517666a15d25a6870307231416016fc1165f8a1c1743b6aacdbac7a5fac"
+url = "https://github.com/suzuki-shunsuke/cmdx/releases/download/v2.0.2/cmdx_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/cmdx/releases/assets/273022252"
+
+[tools.cmdx."platforms.macos-x64".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/cmdx/releases/download/v2.0.2/multiple.intoto.jsonl"
+
+[tools.cmdx."platforms.macos-x64-baseline"]
+checksum = "sha256:768b8517666a15d25a6870307231416016fc1165f8a1c1743b6aacdbac7a5fac"
+url = "https://github.com/suzuki-shunsuke/cmdx/releases/download/v2.0.2/cmdx_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/cmdx/releases/assets/273022252"
+
+[tools.cmdx."platforms.macos-x64-baseline".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/cmdx/releases/download/v2.0.2/multiple.intoto.jsonl"
+
+[tools.cmdx."platforms.windows-x64"]
+checksum = "sha256:4452010897556935e3f94a11af2b2889563e05073a6dea72fcf40b83b7f4ae5b"
+url = "https://github.com/suzuki-shunsuke/cmdx/releases/download/v2.0.2/cmdx_windows_amd64.zip"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/cmdx/releases/assets/273022251"
+
+[tools.cmdx."platforms.windows-x64".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/cmdx/releases/download/v2.0.2/multiple.intoto.jsonl"
+
+[tools.cmdx."platforms.windows-x64-baseline"]
+checksum = "sha256:4452010897556935e3f94a11af2b2889563e05073a6dea72fcf40b83b7f4ae5b"
+url = "https://github.com/suzuki-shunsuke/cmdx/releases/download/v2.0.2/cmdx_windows_amd64.zip"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/cmdx/releases/assets/273022251"
+
+[tools.cmdx."platforms.windows-x64-baseline".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/cmdx/releases/download/v2.0.2/multiple.intoto.jsonl"
+
+[[tools.cosign]]
+version = "3.1.3"
+backend = "aqua:sigstore/cosign"
+specifiers = ["3.1.3"]
+
+[tools.cosign."platforms.linux-arm64"]
+checksum = "sha256:c5d324e091826b0d7a78eb16fef316450b4eb9aaec045611c08ba06f5e73220a"
+url = "https://github.com/sigstore/cosign/releases/download/v3.1.3/cosign-linux-arm64"
+url_api = "https://api.github.com/repos/sigstore/cosign/releases/assets/503286299"
+provenance = "cosign"
+
+[tools.cosign."platforms.linux-arm64-musl"]
+checksum = "sha256:c5d324e091826b0d7a78eb16fef316450b4eb9aaec045611c08ba06f5e73220a"
+url = "https://github.com/sigstore/cosign/releases/download/v3.1.3/cosign-linux-arm64"
+url_api = "https://api.github.com/repos/sigstore/cosign/releases/assets/503286299"
+provenance = "cosign"
+
+[tools.cosign."platforms.linux-x64"]
+checksum = "sha256:4629c757b7618056f8ddd7e2625ae9fdd94c0372a65049520bc7d9df9efc7f71"
+url = "https://github.com/sigstore/cosign/releases/download/v3.1.3/cosign-linux-amd64"
+url_api = "https://api.github.com/repos/sigstore/cosign/releases/assets/503286005"
+provenance = "cosign"
+
+[tools.cosign."platforms.linux-x64-baseline"]
+checksum = "sha256:4629c757b7618056f8ddd7e2625ae9fdd94c0372a65049520bc7d9df9efc7f71"
+url = "https://github.com/sigstore/cosign/releases/download/v3.1.3/cosign-linux-amd64"
+url_api = "https://api.github.com/repos/sigstore/cosign/releases/assets/503286005"
+provenance = "cosign"
+
+[tools.cosign."platforms.linux-x64-musl"]
+checksum = "sha256:4629c757b7618056f8ddd7e2625ae9fdd94c0372a65049520bc7d9df9efc7f71"
+url = "https://github.com/sigstore/cosign/releases/download/v3.1.3/cosign-linux-amd64"
+url_api = "https://api.github.com/repos/sigstore/cosign/releases/assets/503286005"
+provenance = "cosign"
+
+[tools.cosign."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:4629c757b7618056f8ddd7e2625ae9fdd94c0372a65049520bc7d9df9efc7f71"
+url = "https://github.com/sigstore/cosign/releases/download/v3.1.3/cosign-linux-amd64"
+url_api = "https://api.github.com/repos/sigstore/cosign/releases/assets/503286005"
+provenance = "cosign"
+
+[tools.cosign."platforms.macos-arm64"]
+checksum = "sha256:5cf948c2f4dfe59687bdd0b8523709067383e03982cc543475c8a7dc70e92a76"
+url = "https://github.com/sigstore/cosign/releases/download/v3.1.3/cosign-darwin-arm64"
+url_api = "https://api.github.com/repos/sigstore/cosign/releases/assets/503286205"
+provenance = "cosign"
+
+[tools.cosign."platforms.macos-x64"]
+checksum = "sha256:2347488e5d5b25336644024dfeca5601b190e91197a71a917bda44744aff106c"
+url = "https://github.com/sigstore/cosign/releases/download/v3.1.3/cosign-darwin-amd64"
+url_api = "https://api.github.com/repos/sigstore/cosign/releases/assets/503286177"
+provenance = "cosign"
+
+[tools.cosign."platforms.macos-x64-baseline"]
+checksum = "sha256:2347488e5d5b25336644024dfeca5601b190e91197a71a917bda44744aff106c"
+url = "https://github.com/sigstore/cosign/releases/download/v3.1.3/cosign-darwin-amd64"
+url_api = "https://api.github.com/repos/sigstore/cosign/releases/assets/503286177"
+provenance = "cosign"
+
+[tools.cosign."platforms.windows-x64"]
+checksum = "sha256:9fe59be0eca1271873ce019061335eb1ac419b7059202e797828467ddabe33be"
+url = "https://github.com/sigstore/cosign/releases/download/v3.1.3/cosign-windows-amd64.exe"
+url_api = "https://api.github.com/repos/sigstore/cosign/releases/assets/503286236"
+provenance = "cosign"
+
+[tools.cosign."platforms.windows-x64-baseline"]
+checksum = "sha256:9fe59be0eca1271873ce019061335eb1ac419b7059202e797828467ddabe33be"
+url = "https://github.com/sigstore/cosign/releases/download/v3.1.3/cosign-windows-amd64.exe"
+url_api = "https://api.github.com/repos/sigstore/cosign/releases/assets/503286236"
+provenance = "cosign"
+
+[[tools.ghalint]]
+version = "1.5.6"
+backend = "aqua:suzuki-shunsuke/ghalint"
+specifiers = ["1.5.6"]
+
+[tools.ghalint."platforms.linux-arm64"]
+checksum = "sha256:203a22c70b40bb161626973ad2a8dd06aeb736699fc8e03dd425dee8ff3406e6"
+url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.6/ghalint_1.5.6_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/ghalint/releases/assets/409631231"
+
+[tools.ghalint."platforms.linux-arm64".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.6/multiple.intoto.jsonl"
+
+[tools.ghalint."platforms.linux-arm64-musl"]
+checksum = "sha256:203a22c70b40bb161626973ad2a8dd06aeb736699fc8e03dd425dee8ff3406e6"
+url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.6/ghalint_1.5.6_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/ghalint/releases/assets/409631231"
+
+[tools.ghalint."platforms.linux-arm64-musl".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.6/multiple.intoto.jsonl"
+
+[tools.ghalint."platforms.linux-x64"]
+checksum = "sha256:98ee0e3330de7286f470d1e89c03ff7ce70d7a5998ba0f15969c400447be579c"
+url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.6/ghalint_1.5.6_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/ghalint/releases/assets/409631220"
+
+[tools.ghalint."platforms.linux-x64".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.6/multiple.intoto.jsonl"
+
+[tools.ghalint."platforms.linux-x64-baseline"]
+checksum = "sha256:98ee0e3330de7286f470d1e89c03ff7ce70d7a5998ba0f15969c400447be579c"
+url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.6/ghalint_1.5.6_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/ghalint/releases/assets/409631220"
+
+[tools.ghalint."platforms.linux-x64-baseline".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.6/multiple.intoto.jsonl"
+
+[tools.ghalint."platforms.linux-x64-musl"]
+checksum = "sha256:98ee0e3330de7286f470d1e89c03ff7ce70d7a5998ba0f15969c400447be579c"
+url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.6/ghalint_1.5.6_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/ghalint/releases/assets/409631220"
+
+[tools.ghalint."platforms.linux-x64-musl".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.6/multiple.intoto.jsonl"
+
+[tools.ghalint."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:98ee0e3330de7286f470d1e89c03ff7ce70d7a5998ba0f15969c400447be579c"
+url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.6/ghalint_1.5.6_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/ghalint/releases/assets/409631220"
+
+[tools.ghalint."platforms.linux-x64-musl-baseline".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.6/multiple.intoto.jsonl"
+
+[tools.ghalint."platforms.macos-arm64"]
+checksum = "sha256:1262cac411e27b4653e6b66b7b06580ebcc2026fdd903e12e6cb0e4591639de6"
+url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.6/ghalint_1.5.6_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/ghalint/releases/assets/409631219"
+
+[tools.ghalint."platforms.macos-arm64".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.6/multiple.intoto.jsonl"
+
+[tools.ghalint."platforms.macos-x64"]
+checksum = "sha256:d2a0e8605333068065dcf4c9b7b7a24891eda1750ac01fb755dfba426a390883"
+url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.6/ghalint_1.5.6_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/ghalint/releases/assets/409631204"
+
+[tools.ghalint."platforms.macos-x64".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.6/multiple.intoto.jsonl"
+
+[tools.ghalint."platforms.macos-x64-baseline"]
+checksum = "sha256:d2a0e8605333068065dcf4c9b7b7a24891eda1750ac01fb755dfba426a390883"
+url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.6/ghalint_1.5.6_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/ghalint/releases/assets/409631204"
+
+[tools.ghalint."platforms.macos-x64-baseline".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.6/multiple.intoto.jsonl"
+
+[tools.ghalint."platforms.windows-x64"]
+checksum = "sha256:109ea9b39c8e263cef924bd3b4fe5505964204f934ca60d986f4090d01a99ba5"
+url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.6/ghalint_1.5.6_windows_amd64.zip"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/ghalint/releases/assets/409631234"
+
+[tools.ghalint."platforms.windows-x64".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.6/multiple.intoto.jsonl"
+
+[tools.ghalint."platforms.windows-x64-baseline"]
+checksum = "sha256:109ea9b39c8e263cef924bd3b4fe5505964204f934ca60d986f4090d01a99ba5"
+url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.6/ghalint_1.5.6_windows_amd64.zip"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/ghalint/releases/assets/409631234"
+
+[tools.ghalint."platforms.windows-x64-baseline".provenance.slsa]
+url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.6/multiple.intoto.jsonl"
 
 [[tools.go]]
 version = "1.27.1"
@@ -145,6 +603,71 @@ url = "https://dl.google.com/go/go1.27.1.windows-amd64.zip"
 checksum = "sha256:a3911b5e0e1b1053f25ed0675f4c1c6aad1e2bfcf253df2b9be4caabd2edd95d"
 url = "https://dl.google.com/go/go1.27.1.windows-amd64.zip"
 
+[[tools."go:github.com/google/go-licenses/v2"]]
+version = "2.0.1"
+backend = "go:github.com/google/go-licenses/v2"
+specifiers = ["2.0.1"]
+
+[[tools.gofumpt]]
+version = "0.12.0"
+backend = "aqua:mvdan/gofumpt"
+specifiers = ["0.12.0"]
+
+[tools.gofumpt."platforms.linux-arm64"]
+checksum = "sha256:4322f081241ab0618356aa5921a8c110e4c7acfc17175cc15dc57b2f4a4b652d"
+url = "https://github.com/mvdan/gofumpt/releases/download/v0.12.0/gofumpt_v0.12.0_linux_arm64"
+url_api = "https://api.github.com/repos/mvdan/gofumpt/releases/assets/549473501"
+
+[tools.gofumpt."platforms.linux-arm64-musl"]
+checksum = "sha256:4322f081241ab0618356aa5921a8c110e4c7acfc17175cc15dc57b2f4a4b652d"
+url = "https://github.com/mvdan/gofumpt/releases/download/v0.12.0/gofumpt_v0.12.0_linux_arm64"
+url_api = "https://api.github.com/repos/mvdan/gofumpt/releases/assets/549473501"
+
+[tools.gofumpt."platforms.linux-x64"]
+checksum = "sha256:3bc4fcad497439918f5f56d4987de4709a99da0a355e6bec13a7278532b01d38"
+url = "https://github.com/mvdan/gofumpt/releases/download/v0.12.0/gofumpt_v0.12.0_linux_amd64"
+url_api = "https://api.github.com/repos/mvdan/gofumpt/releases/assets/549473521"
+
+[tools.gofumpt."platforms.linux-x64-baseline"]
+checksum = "sha256:3bc4fcad497439918f5f56d4987de4709a99da0a355e6bec13a7278532b01d38"
+url = "https://github.com/mvdan/gofumpt/releases/download/v0.12.0/gofumpt_v0.12.0_linux_amd64"
+url_api = "https://api.github.com/repos/mvdan/gofumpt/releases/assets/549473521"
+
+[tools.gofumpt."platforms.linux-x64-musl"]
+checksum = "sha256:3bc4fcad497439918f5f56d4987de4709a99da0a355e6bec13a7278532b01d38"
+url = "https://github.com/mvdan/gofumpt/releases/download/v0.12.0/gofumpt_v0.12.0_linux_amd64"
+url_api = "https://api.github.com/repos/mvdan/gofumpt/releases/assets/549473521"
+
+[tools.gofumpt."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:3bc4fcad497439918f5f56d4987de4709a99da0a355e6bec13a7278532b01d38"
+url = "https://github.com/mvdan/gofumpt/releases/download/v0.12.0/gofumpt_v0.12.0_linux_amd64"
+url_api = "https://api.github.com/repos/mvdan/gofumpt/releases/assets/549473521"
+
+[tools.gofumpt."platforms.macos-arm64"]
+checksum = "sha256:1a3e325b956ed12c21031d9e13382bd51a4fabb57de8d40428819b9583c3cfb9"
+url = "https://github.com/mvdan/gofumpt/releases/download/v0.12.0/gofumpt_v0.12.0_darwin_arm64"
+url_api = "https://api.github.com/repos/mvdan/gofumpt/releases/assets/549473536"
+
+[tools.gofumpt."platforms.macos-x64"]
+checksum = "sha256:1d3626892a321aca96a891696eaecb8f68e69e90582c2b55672d5ca210fd5fa8"
+url = "https://github.com/mvdan/gofumpt/releases/download/v0.12.0/gofumpt_v0.12.0_darwin_amd64"
+url_api = "https://api.github.com/repos/mvdan/gofumpt/releases/assets/549473545"
+
+[tools.gofumpt."platforms.macos-x64-baseline"]
+checksum = "sha256:1d3626892a321aca96a891696eaecb8f68e69e90582c2b55672d5ca210fd5fa8"
+url = "https://github.com/mvdan/gofumpt/releases/download/v0.12.0/gofumpt_v0.12.0_darwin_amd64"
+url_api = "https://api.github.com/repos/mvdan/gofumpt/releases/assets/549473545"
+
+[tools.gofumpt."platforms.windows-x64"]
+checksum = "sha256:66bd679908b64864fc85417e7ea01148774b477364b9a02ab1c194333a55c997"
+url = "https://github.com/mvdan/gofumpt/releases/download/v0.12.0/gofumpt_v0.12.0_windows_amd64.exe"
+url_api = "https://api.github.com/repos/mvdan/gofumpt/releases/assets/549473475"
+
+[tools.gofumpt."platforms.windows-x64-baseline"]
+checksum = "sha256:66bd679908b64864fc85417e7ea01148774b477364b9a02ab1c194333a55c997"
+url = "https://github.com/mvdan/gofumpt/releases/download/v0.12.0/gofumpt_v0.12.0_windows_amd64.exe"
+url_api = "https://api.github.com/repos/mvdan/gofumpt/releases/assets/549473475"
+
 [[tools.golangci-lint]]
 version = "2.13.2"
 backend = "aqua:golangci/golangci-lint"
@@ -168,7 +691,19 @@ url = "https://github.com/golangci/golangci-lint/releases/download/v2.13.2/golan
 url_api = "https://api.github.com/repos/golangci/golangci-lint/releases/assets/532995333"
 provenance = "github-attestations"
 
+[tools.golangci-lint."platforms.linux-x64-baseline"]
+checksum = "sha256:2277d43b98ec0054280f2ac26b53268bae97682444678a59a657dd565da021d6"
+url = "https://github.com/golangci/golangci-lint/releases/download/v2.13.2/golangci-lint-2.13.2-linux-amd64.tar.gz"
+url_api = "https://api.github.com/repos/golangci/golangci-lint/releases/assets/532995333"
+provenance = "github-attestations"
+
 [tools.golangci-lint."platforms.linux-x64-musl"]
+checksum = "sha256:2277d43b98ec0054280f2ac26b53268bae97682444678a59a657dd565da021d6"
+url = "https://github.com/golangci/golangci-lint/releases/download/v2.13.2/golangci-lint-2.13.2-linux-amd64.tar.gz"
+url_api = "https://api.github.com/repos/golangci/golangci-lint/releases/assets/532995333"
+provenance = "github-attestations"
+
+[tools.golangci-lint."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:2277d43b98ec0054280f2ac26b53268bae97682444678a59a657dd565da021d6"
 url = "https://github.com/golangci/golangci-lint/releases/download/v2.13.2/golangci-lint-2.13.2-linux-amd64.tar.gz"
 url_api = "https://api.github.com/repos/golangci/golangci-lint/releases/assets/532995333"
@@ -180,10 +715,99 @@ url = "https://github.com/golangci/golangci-lint/releases/download/v2.13.2/golan
 url_api = "https://api.github.com/repos/golangci/golangci-lint/releases/assets/532995398"
 provenance = "github-attestations"
 
+[tools.golangci-lint."platforms.macos-x64"]
+checksum = "sha256:8a13aaf9cbbb1dee52824e862cf0d0720e5bb97c1f4260d1e51623a09492b57b"
+url = "https://github.com/golangci/golangci-lint/releases/download/v2.13.2/golangci-lint-2.13.2-darwin-amd64.tar.gz"
+url_api = "https://api.github.com/repos/golangci/golangci-lint/releases/assets/532995222"
+provenance = "github-attestations"
+
+[tools.golangci-lint."platforms.macos-x64-baseline"]
+checksum = "sha256:8a13aaf9cbbb1dee52824e862cf0d0720e5bb97c1f4260d1e51623a09492b57b"
+url = "https://github.com/golangci/golangci-lint/releases/download/v2.13.2/golangci-lint-2.13.2-darwin-amd64.tar.gz"
+url_api = "https://api.github.com/repos/golangci/golangci-lint/releases/assets/532995222"
+provenance = "github-attestations"
+
 [tools.golangci-lint."platforms.windows-x64"]
 checksum = "sha256:4735fdc8e84a0cfb7a15a1c364a650942f88215e0d36c674ebc4024f7b554524"
 url = "https://github.com/golangci/golangci-lint/releases/download/v2.13.2/golangci-lint-2.13.2-windows-amd64.zip"
 url_api = "https://api.github.com/repos/golangci/golangci-lint/releases/assets/532995335"
+provenance = "github-attestations"
+
+[tools.golangci-lint."platforms.windows-x64-baseline"]
+checksum = "sha256:4735fdc8e84a0cfb7a15a1c364a650942f88215e0d36c674ebc4024f7b554524"
+url = "https://github.com/golangci/golangci-lint/releases/download/v2.13.2/golangci-lint-2.13.2-windows-amd64.zip"
+url_api = "https://api.github.com/repos/golangci/golangci-lint/releases/assets/532995335"
+provenance = "github-attestations"
+
+[[tools.goreleaser]]
+version = "2.18.2"
+backend = "aqua:goreleaser/goreleaser"
+specifiers = ["2.18.2"]
+
+[tools.goreleaser."platforms.linux-arm64"]
+checksum = "sha256:a71681b29194f08f057a68cfcaa5c6b15d907a83a2622c51900c4faff828f322"
+url = "https://github.com/goreleaser/goreleaser/releases/download/v2.18.2/goreleaser_Linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/goreleaser/goreleaser/releases/assets/569382435"
+provenance = "github-attestations"
+
+[tools.goreleaser."platforms.linux-arm64-musl"]
+checksum = "sha256:a71681b29194f08f057a68cfcaa5c6b15d907a83a2622c51900c4faff828f322"
+url = "https://github.com/goreleaser/goreleaser/releases/download/v2.18.2/goreleaser_Linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/goreleaser/goreleaser/releases/assets/569382435"
+provenance = "github-attestations"
+
+[tools.goreleaser."platforms.linux-x64"]
+checksum = "sha256:0a96edc9d9bc594e4a41cc4d59467c182062910ab24d9d1f6dd7b667d32606d3"
+url = "https://github.com/goreleaser/goreleaser/releases/download/v2.18.2/goreleaser_Linux_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/goreleaser/goreleaser/releases/assets/569382334"
+provenance = "github-attestations"
+
+[tools.goreleaser."platforms.linux-x64-baseline"]
+checksum = "sha256:0a96edc9d9bc594e4a41cc4d59467c182062910ab24d9d1f6dd7b667d32606d3"
+url = "https://github.com/goreleaser/goreleaser/releases/download/v2.18.2/goreleaser_Linux_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/goreleaser/goreleaser/releases/assets/569382334"
+provenance = "github-attestations"
+
+[tools.goreleaser."platforms.linux-x64-musl"]
+checksum = "sha256:0a96edc9d9bc594e4a41cc4d59467c182062910ab24d9d1f6dd7b667d32606d3"
+url = "https://github.com/goreleaser/goreleaser/releases/download/v2.18.2/goreleaser_Linux_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/goreleaser/goreleaser/releases/assets/569382334"
+provenance = "github-attestations"
+
+[tools.goreleaser."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:0a96edc9d9bc594e4a41cc4d59467c182062910ab24d9d1f6dd7b667d32606d3"
+url = "https://github.com/goreleaser/goreleaser/releases/download/v2.18.2/goreleaser_Linux_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/goreleaser/goreleaser/releases/assets/569382334"
+provenance = "github-attestations"
+
+[tools.goreleaser."platforms.macos-arm64"]
+checksum = "sha256:4bfd26942aa0f78e275cad3e49144a7c5ce2e8a34f7d0e9d34c718125766ba12"
+url = "https://github.com/goreleaser/goreleaser/releases/download/v2.18.2/goreleaser_Darwin_all.tar.gz"
+url_api = "https://api.github.com/repos/goreleaser/goreleaser/releases/assets/569382437"
+provenance = "github-attestations"
+
+[tools.goreleaser."platforms.macos-x64"]
+checksum = "sha256:4bfd26942aa0f78e275cad3e49144a7c5ce2e8a34f7d0e9d34c718125766ba12"
+url = "https://github.com/goreleaser/goreleaser/releases/download/v2.18.2/goreleaser_Darwin_all.tar.gz"
+url_api = "https://api.github.com/repos/goreleaser/goreleaser/releases/assets/569382437"
+provenance = "github-attestations"
+
+[tools.goreleaser."platforms.macos-x64-baseline"]
+checksum = "sha256:4bfd26942aa0f78e275cad3e49144a7c5ce2e8a34f7d0e9d34c718125766ba12"
+url = "https://github.com/goreleaser/goreleaser/releases/download/v2.18.2/goreleaser_Darwin_all.tar.gz"
+url_api = "https://api.github.com/repos/goreleaser/goreleaser/releases/assets/569382437"
+provenance = "github-attestations"
+
+[tools.goreleaser."platforms.windows-x64"]
+checksum = "sha256:de61a8e7a064abb14210b16c942facd299643d83341c5cd293f19155a7c8b95f"
+url = "https://github.com/goreleaser/goreleaser/releases/download/v2.18.2/goreleaser_Windows_x86_64.zip"
+url_api = "https://api.github.com/repos/goreleaser/goreleaser/releases/assets/569382470"
+provenance = "github-attestations"
+
+[tools.goreleaser."platforms.windows-x64-baseline"]
+checksum = "sha256:de61a8e7a064abb14210b16c942facd299643d83341c5cd293f19155a7c8b95f"
+url = "https://github.com/goreleaser/goreleaser/releases/download/v2.18.2/goreleaser_Windows_x86_64.zip"
+url_api = "https://api.github.com/repos/goreleaser/goreleaser/releases/assets/569382470"
 provenance = "github-attestations"
 
 [[tools.hk]]
@@ -206,7 +830,17 @@ checksum = "sha256:f14d0290a07f82911f32ea5e4a91dd80d90abb852488912b1ade9b240f70d
 url = "https://github.com/jdx/hk/releases/download/v2.0.1/hk-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 
+[tools.hk."platforms.linux-x64-baseline"]
+checksum = "sha256:f14d0290a07f82911f32ea5e4a91dd80d90abb852488912b1ade9b240f70d615"
+url = "https://github.com/jdx/hk/releases/download/v2.0.1/hk-x86_64-unknown-linux-gnu.tar.gz"
+signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
+
 [tools.hk."platforms.linux-x64-musl"]
+checksum = "sha256:76269248e27114f361d533551ffca757e58a1d4abe880fd008df16d19128ea97"
+url = "https://github.com/jdx/hk/releases/download/v2.0.1/hk-x86_64-unknown-linux-musl.tar.gz"
+signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
+
+[tools.hk."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:76269248e27114f361d533551ffca757e58a1d4abe880fd008df16d19128ea97"
 url = "https://github.com/jdx/hk/releases/download/v2.0.1/hk-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
@@ -220,3 +854,199 @@ signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 checksum = "sha256:b3cb8ab5958393faacefabfb3a402060eb256b1fda8e1f83c74c3fc877ebff8f"
 url = "https://github.com/jdx/hk/releases/download/v2.0.1/hk-x86_64-pc-windows-msvc.zip"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
+
+[tools.hk."platforms.windows-x64-baseline"]
+checksum = "sha256:b3cb8ab5958393faacefabfb3a402060eb256b1fda8e1f83c74c3fc877ebff8f"
+url = "https://github.com/jdx/hk/releases/download/v2.0.1/hk-x86_64-pc-windows-msvc.zip"
+signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
+
+[[tools.pinact]]
+version = "5.0.0"
+backend = "aqua:suzuki-shunsuke/pinact"
+specifiers = ["5.0.0"]
+
+[tools.pinact."platforms.linux-arm64"]
+checksum = "sha256:d28ca5e9ddd7950da4a808288f8a83f84fc3ca40e86bab970f3adeef33578c0b"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v5.0.0/pinact_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/pinact/releases/assets/558638070"
+provenance = "github-attestations"
+
+[tools.pinact."platforms.linux-arm64-musl"]
+checksum = "sha256:d28ca5e9ddd7950da4a808288f8a83f84fc3ca40e86bab970f3adeef33578c0b"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v5.0.0/pinact_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/pinact/releases/assets/558638070"
+provenance = "github-attestations"
+
+[tools.pinact."platforms.linux-x64"]
+checksum = "sha256:d005bbb85da80dacdc07816f24a5da723a9f6d1e9f3d3e7e73df33f9caa1358f"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v5.0.0/pinact_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/pinact/releases/assets/558638065"
+provenance = "github-attestations"
+
+[tools.pinact."platforms.linux-x64-baseline"]
+checksum = "sha256:d005bbb85da80dacdc07816f24a5da723a9f6d1e9f3d3e7e73df33f9caa1358f"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v5.0.0/pinact_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/pinact/releases/assets/558638065"
+provenance = "github-attestations"
+
+[tools.pinact."platforms.linux-x64-musl"]
+checksum = "sha256:d005bbb85da80dacdc07816f24a5da723a9f6d1e9f3d3e7e73df33f9caa1358f"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v5.0.0/pinact_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/pinact/releases/assets/558638065"
+provenance = "github-attestations"
+
+[tools.pinact."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:d005bbb85da80dacdc07816f24a5da723a9f6d1e9f3d3e7e73df33f9caa1358f"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v5.0.0/pinact_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/pinact/releases/assets/558638065"
+provenance = "github-attestations"
+
+[tools.pinact."platforms.macos-arm64"]
+checksum = "sha256:3437ebfc9db720e431e86fd03ed19173b88dcb80b0f177d11a892126108661b5"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v5.0.0/pinact_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/pinact/releases/assets/558638064"
+provenance = "github-attestations"
+
+[tools.pinact."platforms.macos-x64"]
+checksum = "sha256:da5532bd185a9d3a16a1f93774f835574e0c50bc74c2085b9917b9df3e9fbbaa"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v5.0.0/pinact_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/pinact/releases/assets/558638050"
+provenance = "github-attestations"
+
+[tools.pinact."platforms.macos-x64-baseline"]
+checksum = "sha256:da5532bd185a9d3a16a1f93774f835574e0c50bc74c2085b9917b9df3e9fbbaa"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v5.0.0/pinact_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/pinact/releases/assets/558638050"
+provenance = "github-attestations"
+
+[tools.pinact."platforms.windows-x64"]
+checksum = "sha256:df2f590f24c2bfe65a35010bffb4369ba0792c9afaf7fb324b2330895a37d19f"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v5.0.0/pinact_windows_amd64.zip"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/pinact/releases/assets/558638100"
+provenance = "github-attestations"
+
+[tools.pinact."platforms.windows-x64-baseline"]
+checksum = "sha256:df2f590f24c2bfe65a35010bffb4369ba0792c9afaf7fb324b2330895a37d19f"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v5.0.0/pinact_windows_amd64.zip"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/pinact/releases/assets/558638100"
+provenance = "github-attestations"
+
+[[tools.syft]]
+version = "1.52.0"
+backend = "aqua:anchore/syft"
+specifiers = ["1.52.0"]
+
+[tools.syft."platforms.linux-arm64"]
+checksum = "sha256:c46d5e4c28e12aa4c5becfaa343ef1c7f89045b6b895f2c21d471c62db09c706"
+url = "https://github.com/anchore/syft/releases/download/v1.52.0/syft_1.52.0_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/anchore/syft/releases/assets/570445811"
+
+[tools.syft."platforms.linux-arm64-musl"]
+checksum = "sha256:c46d5e4c28e12aa4c5becfaa343ef1c7f89045b6b895f2c21d471c62db09c706"
+url = "https://github.com/anchore/syft/releases/download/v1.52.0/syft_1.52.0_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/anchore/syft/releases/assets/570445811"
+
+[tools.syft."platforms.linux-x64"]
+checksum = "sha256:caeedb81fb0491615f1ebd1761e4145d41ee86dd2cc7bf80669f9f5ad9d6133d"
+url = "https://github.com/anchore/syft/releases/download/v1.52.0/syft_1.52.0_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/anchore/syft/releases/assets/570445809"
+
+[tools.syft."platforms.linux-x64-baseline"]
+checksum = "sha256:caeedb81fb0491615f1ebd1761e4145d41ee86dd2cc7bf80669f9f5ad9d6133d"
+url = "https://github.com/anchore/syft/releases/download/v1.52.0/syft_1.52.0_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/anchore/syft/releases/assets/570445809"
+
+[tools.syft."platforms.linux-x64-musl"]
+checksum = "sha256:caeedb81fb0491615f1ebd1761e4145d41ee86dd2cc7bf80669f9f5ad9d6133d"
+url = "https://github.com/anchore/syft/releases/download/v1.52.0/syft_1.52.0_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/anchore/syft/releases/assets/570445809"
+
+[tools.syft."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:caeedb81fb0491615f1ebd1761e4145d41ee86dd2cc7bf80669f9f5ad9d6133d"
+url = "https://github.com/anchore/syft/releases/download/v1.52.0/syft_1.52.0_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/anchore/syft/releases/assets/570445809"
+
+[tools.syft."platforms.macos-arm64"]
+checksum = "sha256:014d561b6d13059124155f74a6c5a9a99501f5e209313638dd884f39eb418ee6"
+url = "https://github.com/anchore/syft/releases/download/v1.52.0/syft_1.52.0_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/anchore/syft/releases/assets/570445806"
+
+[tools.syft."platforms.macos-x64"]
+checksum = "sha256:56975f5d7ffa9846a1eaf64330647841b878097bc7e3730cb9325f93add96917"
+url = "https://github.com/anchore/syft/releases/download/v1.52.0/syft_1.52.0_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/anchore/syft/releases/assets/570445818"
+
+[tools.syft."platforms.macos-x64-baseline"]
+checksum = "sha256:56975f5d7ffa9846a1eaf64330647841b878097bc7e3730cb9325f93add96917"
+url = "https://github.com/anchore/syft/releases/download/v1.52.0/syft_1.52.0_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/anchore/syft/releases/assets/570445818"
+
+[tools.syft."platforms.windows-x64"]
+checksum = "sha256:de787a374cf961c56fd7b206b2e183295abba32d0af3cb44d9aef2357ca9eda2"
+url = "https://github.com/anchore/syft/releases/download/v1.52.0/syft_1.52.0_windows_amd64.zip"
+url_api = "https://api.github.com/repos/anchore/syft/releases/assets/570445831"
+
+[tools.syft."platforms.windows-x64-baseline"]
+checksum = "sha256:de787a374cf961c56fd7b206b2e183295abba32d0af3cb44d9aef2357ca9eda2"
+url = "https://github.com/anchore/syft/releases/download/v1.52.0/syft_1.52.0_windows_amd64.zip"
+url_api = "https://api.github.com/repos/anchore/syft/releases/assets/570445831"
+
+[[tools.typos]]
+version = "1.50.2"
+backend = "aqua:crate-ci/typos"
+specifiers = ["1.50.2"]
+
+[tools.typos."platforms.linux-arm64"]
+checksum = "sha256:27c4b6d0ba6f37d120ce32117777d703fc9d57ba71f16e8bcde5b35c987cf9b8"
+url = "https://github.com/crate-ci/typos/releases/download/v1.50.2/typos-v1.50.2-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/565799446"
+
+[tools.typos."platforms.linux-arm64-musl"]
+checksum = "sha256:27c4b6d0ba6f37d120ce32117777d703fc9d57ba71f16e8bcde5b35c987cf9b8"
+url = "https://github.com/crate-ci/typos/releases/download/v1.50.2/typos-v1.50.2-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/565799446"
+
+[tools.typos."platforms.linux-x64"]
+checksum = "sha256:abcb3e257c7c2abeff4d903f7fe68071357637605bdb283ce2251f44bc70dc09"
+url = "https://github.com/crate-ci/typos/releases/download/v1.50.2/typos-v1.50.2-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/565795694"
+
+[tools.typos."platforms.linux-x64-baseline"]
+checksum = "sha256:abcb3e257c7c2abeff4d903f7fe68071357637605bdb283ce2251f44bc70dc09"
+url = "https://github.com/crate-ci/typos/releases/download/v1.50.2/typos-v1.50.2-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/565795694"
+
+[tools.typos."platforms.linux-x64-musl"]
+checksum = "sha256:abcb3e257c7c2abeff4d903f7fe68071357637605bdb283ce2251f44bc70dc09"
+url = "https://github.com/crate-ci/typos/releases/download/v1.50.2/typos-v1.50.2-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/565795694"
+
+[tools.typos."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:abcb3e257c7c2abeff4d903f7fe68071357637605bdb283ce2251f44bc70dc09"
+url = "https://github.com/crate-ci/typos/releases/download/v1.50.2/typos-v1.50.2-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/565795694"
+
+[tools.typos."platforms.macos-arm64"]
+checksum = "sha256:70d61e9d682034133f0aa56f5a02bae0de168495f3cce62a87054aa7186c1901"
+url = "https://github.com/crate-ci/typos/releases/download/v1.50.2/typos-v1.50.2-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/565802016"
+
+[tools.typos."platforms.macos-x64"]
+checksum = "sha256:7480a081e51d428d94f560ef8b855ae0decb7c35cc686925ed887c5f51b1ecf1"
+url = "https://github.com/crate-ci/typos/releases/download/v1.50.2/typos-v1.50.2-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/565800683"
+
+[tools.typos."platforms.macos-x64-baseline"]
+checksum = "sha256:7480a081e51d428d94f560ef8b855ae0decb7c35cc686925ed887c5f51b1ecf1"
+url = "https://github.com/crate-ci/typos/releases/download/v1.50.2/typos-v1.50.2-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/565800683"
+
+[tools.typos."platforms.windows-x64"]
+checksum = "sha256:8474ca8bd72df497b7dee2272345bdea0d4926b18b708faea492fc9bcfd0b0e9"
+url = "https://github.com/crate-ci/typos/releases/download/v1.50.2/typos-v1.50.2-x86_64-pc-windows-msvc.zip"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/565798642"
+
+[tools.typos."platforms.windows-x64-baseline"]
+checksum = "sha256:8474ca8bd72df497b7dee2272345bdea0d4926b18b708faea492fc9bcfd0b0e9"
+url = "https://github.com/crate-ci/typos/releases/download/v1.50.2/typos-v1.50.2-x86_64-pc-windows-msvc.zip"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/565798642"
