@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/dkarter/ghtkn/compare/v0.6.0...v0.7.0) (2026-09-19)
+
+
+### Features
+
+* **agent:** add status readiness check ([90b40ff](https://github.com/dkarter/ghtkn/commit/90b40ff9f6bab9363458a97c6496b9c85fe6fd36))
+
 ## [0.6.0](https://github.com/dkarter/ghtkn/compare/v0.5.0...v0.6.0) (2026-08-28)
 
 
