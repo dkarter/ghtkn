@@ -1,2 +1,6 @@
 [tools]
+"aqua:suzuki-shunsuke/langcheck" = "0.0.1"
+"aqua:suzuki-shunsuke/nllint" = "1.2.0"
+go = "1.27.1"
+golangci-lint = "2.13.2"
 hk = "latest"
