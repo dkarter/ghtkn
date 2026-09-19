@@ -2,6 +2,7 @@ package status
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log/slog"
 	"os"
@@ -10,10 +11,22 @@ import (
 	agentapi "github.com/suzuki-shunsuke/ghtkn-go-sdk/ghtkn/backend/agent"
 )
 
+// ErrNotRunning is returned by Check when no agent is listening.
+var ErrNotRunning = errors.New("ghtkn agent is not running")
+
 // Run reports whether a ghtkn agent is running, whether it is locked, and how
 // many access tokens it currently caches when unlocked. A stopped agent is a normal
 // result, not an error, so this method returns nil in that case.
 func (c *Controller) Run(ctx context.Context, logger *slog.Logger) error {
+	return c.run(ctx, logger, false)
+}
+
+// Check reports the agent status and returns ErrNotRunning when no agent is listening.
+func (c *Controller) Check(ctx context.Context, logger *slog.Logger) error {
+	return c.run(ctx, logger, true)
+}
+
+func (c *Controller) run(ctx context.Context, logger *slog.Logger, requireRunning bool) error {
 	path, err := agentapi.SocketPath(os.Getenv, runtime.GOOS)
 	if err != nil {
 		return err //nolint:wrapcheck
@@ -26,6 +39,9 @@ func (c *Controller) Run(ctx context.Context, logger *slog.Logger) error {
 	switch {
 	case !running:
 		logger.Info("ghtkn agent is not running")
+		if requireRunning {
+			return ErrNotRunning
+		}
 	case resp.Locked:
 		logger.Info("ghtkn agent is running but locked", append(versionAttrs(resp), "socket", path)...)
 	default:

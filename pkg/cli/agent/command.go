@@ -11,6 +11,7 @@ package agent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"runtime"
@@ -25,6 +26,7 @@ import (
 	"github.com/suzuki-shunsuke/ghtkn/pkg/controller/agent/status"
 	"github.com/suzuki-shunsuke/ghtkn/pkg/controller/agent/stop"
 	"github.com/suzuki-shunsuke/ghtkn/pkg/controller/agent/unlock"
+	"github.com/suzuki-shunsuke/go-error-with-exit-code/ecerror"
 	"github.com/suzuki-shunsuke/slog-error/slogerr"
 	"github.com/suzuki-shunsuke/slog-util/slogutil"
 )
@@ -80,6 +82,10 @@ type unlockArgs struct {
 	EnableRefresh   bool
 	PassphraseStdin bool
 	RefreshTokenTTL string
+}
+
+type statusArgs struct {
+	Check bool
 }
 
 // warnIfBackendNotAgent logs a warning when the resolved storage backend is not the
@@ -168,7 +174,8 @@ func (r *runner) stop(ctx context.Context) error {
 
 // statusCommand returns the CLI command definition for the 'agent status' subcommand.
 func (r *runner) statusCommand() *cobra.Command {
-	return &cobra.Command{
+	args := &statusArgs{}
+	cmd := &cobra.Command{
 		Use:   "status",
 		Short: "Show whether the ghtkn agent is running",
 		Args:  cobra.NoArgs,
@@ -178,23 +185,36 @@ It connects to the agent's Unix domain socket and reports the number of cached
 access tokens, along with the ghtkn version the running agent was built from and
 the agent protocol version it speaks. The agent keeps running the binary it was
 started with, so an agent version older than 'ghtkn --version' means the agent
-must be restarted. It exits 0 whether or not the agent is running.
+must be restarted. It exits 0 whether or not the agent is running unless --check
+is set. With --check, it exits 1 when the agent is not running.
 
 $ ghtkn agent status`,
 		RunE: func(cmd *cobra.Command, _ []string) error {
-			return r.status(cmd.Context())
+			return r.status(cmd.Context(), args)
 		},
 	}
+	cmd.Flags().BoolVar(&args.Check, "check", false, "Exit 1 when the agent is not running")
+	return cmd
 }
 
 // status executes the 'agent status' command logic.
 // It configures the log level and reports whether the agent is running.
-func (r *runner) status(ctx context.Context) error {
+func (r *runner) status(ctx context.Context, args *statusArgs) error {
 	if err := r.logger.SetLevel(r.flags.LogLevel); err != nil {
 		return fmt.Errorf("set log level: %w", err)
 	}
 	r.warnIfBackendNotAgent()
-	return status.New().Run(ctx, r.logger.Logger) //nolint:wrapcheck
+	controller := status.New()
+	if !args.Check {
+		return controller.Run(ctx, r.logger.Logger) //nolint:wrapcheck
+	}
+	if err := controller.Check(ctx, r.logger.Logger); err != nil {
+		if errors.Is(err, status.ErrNotRunning) {
+			return ecerror.Wrap(cobrautil.ErrSilent, 1)
+		}
+		return err //nolint:wrapcheck
+	}
+	return nil
 }
 
 // unlockCommand returns the CLI command definition for the 'agent unlock' subcommand.

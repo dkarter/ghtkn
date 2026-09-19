@@ -20,3 +20,14 @@ func TestUnlockCommand_passphraseStdinFlag(t *testing.T) {
 		t.Fatal("unlock command help does not show the supported 1Password pipeline")
 	}
 }
+
+func TestStatusCommand_checkFlag(t *testing.T) {
+	t.Parallel()
+	cmd := (&runner{flags: &flag.GlobalFlags{}}).statusCommand()
+	if cmd.Flags().Lookup("check") == nil {
+		t.Fatal("status command does not define --check")
+	}
+	if !strings.Contains(cmd.Long, "With --check, it exits 1") {
+		t.Fatal("status command help does not document --check exit behavior")
+	}
+}
